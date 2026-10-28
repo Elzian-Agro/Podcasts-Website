@@ -474,10 +474,15 @@ footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-t
 @keyframes fade { from { opacity: 0; } }
 .frame { position: relative; display: flex; width: 100%; max-width: 900px; max-height: 100%; border-radius: 30px; background: var(--surface); border: 1px solid var(--glass-border); box-shadow: 0 30px 90px rgba(0, 0, 0, .5); overflow: hidden; animation: rise .4s cubic-bezier(.2, .7, .2, 1) both; }
 .sheet { flex: 1; min-width: 0; overflow-y: auto; overscroll-behavior: contain; }
-.close { position: absolute; top: 14px; right: 14px; z-index: 3; background: var(--surface); }
-.pop-head { padding: 30px 30px 24px; display: flex; flex-wrap: wrap; gap: 22px; align-items: center; background: linear-gradient(135deg, color-mix(in srgb, var(--a) 32%, transparent), transparent 72%); }
-.pop-head > div { min-width: 0; flex: 1 1 260px; display: flex; flex-direction: column; gap: 12px; padding-right: 36px; }
+.close { position: absolute; top: 22px; right: 22px; z-index: 3; background: var(--surface); }
+
+/* Popup header: image inside the colour box on top, then title, then description */
+.pop-head { padding: 24px 30px 24px; display: flex; flex-direction: column; align-items: stretch; flex-wrap: nowrap; gap: 20px; background: linear-gradient(135deg, color-mix(in srgb, var(--a) 32%, transparent), transparent 72%); }
+.pop-art { width: 100%; aspect-ratio: 16 / 9; max-height: 320px; padding: 14px; border-radius: 24px; background: var(--cover); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25); overflow: hidden; }
+.pop-art img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 14px; }
+.pop-intro { min-width: 0; display: flex; flex-direction: column; gap: 12px; }
 .pop-head h2 { font-family: var(--display); font-size: clamp(1.6rem, 1.2rem + 1.8vw, 2.4rem); line-height: 1.08; letter-spacing: -.025em; text-wrap: balance; }
+.pop-desc { color: var(--muted); font-size: 1.05rem; max-width: 62ch; }
 .pop-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; color: var(--muted); }
 .pop-body { padding: 0 30px 32px; display: flex; flex-direction: column; gap: 26px; }
 .pop-player { padding: 20px; display: flex; flex-direction: column; gap: 12px; border-radius: 22px; }
@@ -530,7 +535,10 @@ footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-t
   .nav-links { order: 3; width: 100%; overflow-x: auto; justify-content: space-between; }
   .nav-links a { padding: 8px 10px; }
   .pop-grid { grid-template-columns: minmax(0, 1fr); }
-  .pop-head, .pop-body { padding-inline: 20px; }
+  .pop-head { padding: 20px; }
+  .pop-body { padding-inline: 20px; }
+  .pop-art { padding: 10px; border-radius: 20px; }
+  .pop-art img { border-radius: 12px; }
   .cover.xl { width: 96px; height: 96px; border-radius: 24px; }
 }
 @media (max-width: 520px) {
@@ -780,7 +788,7 @@ footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-t
             <div class="search">
               <svg class="ic s" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-search"/></svg>
               <label class="sr-only" for="q">Search episodes</label>
-              <input class="input" id="q" type="search" placeholder="Search guests, titles, topics" autocomplete="off">
+              <input class="input" id="q" type="search" placeholder="Search guests, titles, tags" autocomplete="off">
             </div>
           </div>
           <p class="count mono" id="count" role="status"></p>
@@ -841,6 +849,8 @@ footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-t
   </div>
 </div>
 
+<!-- All episode, category, generation and platform data lives in content.js -->
+<script src="content.js"></script>
 <script>
 (function () {
   var root = document.documentElement;
@@ -848,137 +858,21 @@ footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-t
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---------- Data ---------- */
-  var CATS = {
-    environment: { name: 'Environment', icon: 'i-leaf', tag: 'Living systems', desc: 'Everyday habits and local ecosystems: waste, wildlife, gardens and the choices households make. Guests compare how their generation learned to look after the places around them.', topics: ['Waste and reuse', 'Wildlife', 'School and community gardens'] },
-    land: { name: 'Land', icon: 'i-mountain', tag: 'Ground and ownership', desc: 'Who uses land, who owns it and what it can recover from. Soil, city lots, forests and the long memory of a place.', topics: ['Soil health', 'Urban land', 'Rewilding'] },
-    climate: { name: 'Climate', icon: 'i-thermo', tag: 'Weather and warming', desc: 'How the weather is changing and how it feels to live through it. Records, forecasts, worry and practical hope across age groups.', topics: ['Weather records', 'Climate worry', 'Adaptation'] },
-    ocean: { name: 'Ocean', icon: 'i-wave', tag: 'Coasts and seas', desc: 'Reefs, fisheries and coastlines as remembered by people who worked them and measured by people who study them now.', topics: ['Reefs', 'Fisheries', 'Coastal communities'] },
-    agriculture: { name: 'Agriculture', icon: 'i-wheat', tag: 'Fields, water and food', desc: 'Farming across generations: handing over the farm, adopting new tools and deciding what is worth keeping. Land, water and food in one place.', topics: ['Farm succession', 'Precision tools', 'Food systems'] },
-    energy: { name: 'Energy', icon: 'i-bolt', tag: 'Power and fuel', desc: 'Where power comes from and where it is heading. Stoves, grids, batteries and rooftops, explained by people who each grew up with a different electricity bill.', topics: ['Solar power', 'Batteries', 'Power grids'] }
-  };
-  var CAT_ORDER = ['environment', 'land', 'climate', 'ocean', 'agriculture', 'energy'];
-
-  var GENS = [
-    { id: 'boomers', name: 'Baby Boomers', short: 'Boomers', aka: 'Boomers', from: 1946, to: 1964, born: '1946 to 1964', ages: '62 to 80', desc: 'Born during the post-World War II baby boom. Experienced major social changes, economic expansion, and the rise of television culture.', shaped: ['Post-war economic expansion', 'The rise of television', 'Mass social movements'] },
-    { id: 'genx', name: 'Generation X', short: 'Gen X', aka: 'Gen X', from: 1965, to: 1980, born: '1965 to 1980', ages: '46 to 61', desc: 'A smaller generation raised between the broadcast era and the internet. Many remember a childhood without personal computers and a working life that ran through the arrival of email and mobile phones.', shaped: ['Personal computers arriving at home', 'Cable and music television', 'Economic shocks in early careers'] },
-    { id: 'millennials', name: 'Millennials', short: 'Millennials', aka: 'Generation Y', from: 1981, to: 1996, born: '1981 to 1996', ages: '30 to 45', desc: 'The first generation to grow up alongside the public internet. Many entered the job market during the 2008 financial crisis and now balance careers, housing costs and young families.', shaped: ['The public internet', 'The 2008 financial crisis', 'Smartphones in early adulthood'] },
-    { id: 'genz', name: 'Generation Z', short: 'Gen Z', aka: 'Gen Z or Zoomers', from: 1997, to: 2012, born: '1997 to 2012', ages: '14 to 29', desc: 'Digital natives who have never known a world without smartphones and social media. They came of age with climate protest, remote school and online communities.', shaped: ['Smartphones and social media', 'Climate strikes', 'Remote learning'] },
-    { id: 'alpha', name: 'Generation Alpha', short: 'Gen Alpha', aka: 'Gen Alpha', from: 2013, to: 2024, born: '2013 to 2024, some sources start in 2010', ages: '2 to 16', desc: 'The first generation born entirely in the 21st century. They are growing up with tablets, voice assistants and AI tools, and the oldest are only now starting secondary school.', shaped: ['Tablets and streaming video', 'Voice assistants', 'AI tools in everyday life'] }
-  ];
+  /* ---------- Data (from content.js) ---------- */
+  var CATS = SITE.CATS, CAT_ORDER = SITE.CAT_ORDER, GENS = SITE.GENS, EP = SITE.EP, PLATFORMS = SITE.PLATFORMS;
   var GEN = {};
   GENS.forEach(function (g) { GEN[g.id] = g; });
-
-  var EP = [
-    { n: 12, cat: 'energy', gens: ['millennials', 'alpha'], title: 'The Battery Questions Kids Ask', date: '27 Oct 2026', dur: 2410,
-      guests: [{ n: 'Nadia Farouk', g: 'millennials', r: 'Grid engineer' }, { n: 'Ishaan (age 11)', g: 'alpha', r: 'School science club' }],
-      summary: "A grid engineer takes on a school science club's hardest questions about batteries, power cuts and where electricity really comes from.",
-      about: 'Ishaan arrives with a list of questions collected from his whole science club: why do phones die, who turns the lights on, and can a battery run a house? Nadia answers each one with something you can see or hold, then admits where the grown-up answer is still "it depends". They end up designing a tiny town powered by sun, wind and one very large battery.',
-      take: ['A battery stores energy but does not make it, so something has to charge it first.', 'Power cuts usually come from the wires between us and the power station, not from running out of fuel.', 'Children ask the questions adults stopped asking, and those questions are often the useful ones.'],
-      chap: ['How electricity reaches a house', 'Why batteries run out', 'Designing a town on sun and wind'],
-      topics: ['Batteries', 'Power grids', 'Solar power'],
-      res: ['Explainer: how a home battery works', 'Diagram: one day on the grid', 'Activity: build a lemon battery'] },
-    { n: 11, cat: 'energy', gens: ['boomers', 'genz'], title: 'From Coal Stove to Solar Roof', date: '20 Oct 2026', dur: 2760,
-      guests: [{ n: 'Margaret Ellison', g: 'boomers', r: 'Retired electrician' }, { n: 'Kai Tan', g: 'genz', r: 'Solar installer' }],
-      summary: 'A retired electrician and a young solar installer compare how households have heated, cooked and paid for power over fifty years.',
-      about: 'Margaret wired houses when a fuse box was the smartest thing in the building. Kai fits panels, batteries and smart meters on those same houses today. They trade stories about the jobs that went wrong, the rules that changed, and what a roof is for.',
-      take: ['Many old wiring habits still protect people, even on a modern solar system.', 'Rooftop solar changes the question from what power costs to when we use it.', 'Trades knowledge passes on best on the job, side by side.'],
-      chap: ['Heating homes in the 1970s', 'What a solar job involves today', 'Training the next installers'],
-      topics: ['Solar roofs', 'Home wiring', 'Skills and trades'],
-      res: ['Checklist: questions to ask a solar installer', 'Guide: reading your electricity bill', 'Short history of home heating'] },
-    { n: 10, cat: 'agriculture', gens: ['genx', 'genz'], title: 'Apps in the Rice Field', date: '13 Oct 2026', dur: 2950,
-      guests: [{ n: 'Suresh Pillai', g: 'genx', r: 'Rice farmer' }, { n: 'Leila Haddad', g: 'genz', r: 'Agritech developer' }],
-      summary: "A rice farmer tests a young developer's water-level app against a lifetime of weather sense.",
-      about: 'Leila has built an app that tells farmers when to open and close their field gates. Suresh has opinions. Over one season of testing they compare what the sensors say with what his eyes, boots and knees say, and find the places where each is right.',
-      take: ['A sensor is only useful if the reading changes a decision.', 'Local knowledge catches things that data from one field cannot.', 'Good tools get built with farmers, not delivered to them.'],
-      chap: ['Reading a field without a screen', 'Testing the app for one season', 'Where the two disagreed'],
-      topics: ['Water management', 'Farm technology', 'Rice growing'],
-      res: ['Notes: how a field water sensor works', 'Guide: questions to ask before buying farm tech', 'Template: a simple field diary'] },
-    { n: 9, cat: 'agriculture', gens: ['boomers', 'millennials'], title: 'Passing the Plough', date: '6 Oct 2026', dur: 3120,
-      guests: [{ n: 'Walter Brandt', g: 'boomers', r: 'Grain and dairy farmer' }, { n: 'Chloe Anders', g: 'millennials', r: 'Returning farmer' }],
-      summary: 'Handing a farm to the next generation is a money question, a land question and a family question. Walter and Chloe take all three.',
-      about: 'Walter has farmed the same fields for forty years and is working out how to hand them on. Chloe left a city job to farm and is working out how to afford it. They talk about land prices, debt, trust, and the day you stop being the one who decides.',
-      take: ['A handover works best when it is planned over years, not announced in one.', 'Access to land is the hardest part for new farmers, more than skill.', 'Clear written agreements protect families as much as businesses.'],
-      chap: ['What forty years on one farm teaches', 'Why a new farmer cannot just buy land', 'Writing the handover plan'],
-      topics: ['Farm succession', 'Land access', 'Family business'],
-      res: ['Checklist: planning a farm handover', 'Glossary: leasing, share-farming, trusts', 'Story: three farms that changed hands'] },
-    { n: 8, cat: 'ocean', gens: ['boomers', 'millennials'], title: "The Fisher's Logbook", date: '29 Sep 2026', dur: 2330,
-      guests: [{ n: 'Tomas Aguilar', g: 'boomers', r: 'Retired fisher' }, { n: 'Priya Venkat', g: 'millennials', r: 'Fisheries data scientist' }],
-      summary: 'Thirty years of handwritten catch notes become data a scientist can finally use.',
-      about: "Tomas kept a logbook of every trip: date, wind, depth, catch. Priya turned the pages into a spreadsheet and found a record that official surveys never captured. They talk about what the numbers show, what they cannot show, and why a fisher's memory counts as evidence.",
-      take: ['Old logbooks can fill gaps that formal surveys missed.', 'Fishers notice change long before it appears in official reports.', 'Data and experience check each other, so each is stronger with the other.'],
-      chap: ['A day on the boat in 1985', 'Typing up the logbooks', 'What the catch records show'],
-      topics: ['Fisheries', 'Citizen data', 'Local knowledge'],
-      res: ['Guide: turning paper logs into a dataset', 'Explainer: what a fish stock is', 'Reading list: fishing community histories'] },
-    { n: 7, cat: 'ocean', gens: ['genx', 'genz'], title: 'The Reef Our Parents Dived', date: '22 Sep 2026', dur: 2660,
-      guests: [{ n: 'Elena Costa', g: 'genx', r: 'Dive instructor' }, { n: 'Marcus Oyelaran', g: 'genz', r: 'Marine biologist' }],
-      summary: 'A dive instructor describes the reefs she first saw as a teenager, and a young biologist describes how they are being restored.',
-      about: 'Elena has dived the same reef for thirty years and can name the spots that have changed. Marcus works on coral nurseries that regrow broken pieces. They compare photographs, notes and feelings, and ask what a healthy reef should mean to someone who has only ever seen a damaged one.',
-      take: ['Each generation tends to treat the reef it first saw as normal, which hides how much has changed.', 'Coral nurseries help, but they work best alongside cleaner water and cooler seas.', 'Photographs from older divers are useful records.'],
-      chap: ['Diving in the 1990s', 'How a coral nursery works', 'What counts as a healthy reef'],
-      topics: ['Coral reefs', 'Restoration', 'Shifting baselines'],
-      res: ['Explainer: what coral bleaching is', 'Gallery: then and now reef photos', 'Guide: how to join a reef survey'] },
-    { n: 6, cat: 'climate', gens: ['millennials', 'genz'], title: 'Climate Worry Has a Timeline', date: '15 Sep 2026', dur: 2870,
-      guests: [{ n: 'Dr. Hana Kobayashi', g: 'millennials', r: 'Climate psychologist' }, { n: 'Zoe Ramirez', g: 'genz', r: 'Student organiser' }],
-      summary: 'A psychologist and a student organiser talk about worry, fatigue and the habits that keep people going.',
-      about: 'Hana studies how people cope with bad news about the planet. Zoe organises climate events at her university and has felt the burnout first hand. They separate worry that pushes people to act from worry that freezes them, and share what has helped.',
-      take: ['Worry about the climate is common and is not a sign that something is wrong with you.', 'Small, regular actions with other people last longer than one big effort.', 'Rest is part of the work, not a break from it.'],
-      chap: ['How worry shows up', 'What burnout looks like in a campaign', 'Habits that help'],
-      topics: ['Climate worry', 'Youth organising', 'Wellbeing'],
-      res: ['Guide: talking about climate with family', 'List: ways to take part locally', 'Reading: coping with eco-anxiety'] },
-    { n: 5, cat: 'climate', gens: ['boomers', 'alpha'], title: "Grandpa's Rain Diary", date: '8 Sep 2026', dur: 2280,
-      guests: [{ n: 'Arthur Whitfield', g: 'boomers', r: 'Volunteer weather observer' }, { n: 'Mina (age 12)', g: 'alpha', r: 'School student' }],
-      summary: 'A volunteer weather observer shares fifty years of rain notes with a twelve-year-old who wants to know how the weather changed.',
-      about: 'Arthur has measured the rain at the bottom of his garden every morning since 1971. Mina brings graph paper and a laptop. Together they plot his notes and look at which years were wet, which were dry, and what a long record can and cannot tell us about a changing climate.',
-      take: ['A long, steady record is one of the most valuable things a citizen can make.', 'One wet or dry year is weather. A trend takes many years of data.', 'Anyone can start a rain diary with a jar and a ruler.'],
-      chap: ['Measuring rain every morning', 'Plotting fifty years by hand', 'Weather versus climate'],
-      topics: ['Rainfall records', 'Citizen science', 'Weather and climate'],
-      res: ['Activity: start your own rain gauge', 'Template: daily weather log', 'Explainer: weather versus climate'] },
-    { n: 4, cat: 'land', gens: ['genx', 'genz'], title: 'Soil Under the Concrete', date: '1 Sep 2026', dur: 2540,
-      guests: [{ n: 'Dr. Ingrid Solberg', g: 'genx', r: 'Soil scientist' }, { n: 'Devon Brooks', g: 'genz', r: 'Community garden founder' }],
-      summary: 'A soil scientist helps a young gardener bring life back to a lot that was a car park for thirty years.',
-      about: 'Devon wants to grow vegetables where a car park used to be. Ingrid explains what has to happen to the ground first: testing, compost, patience. They compare raised beds with repairing the soil itself and talk about who gets to decide what a city lot becomes.',
-      take: ['Test the soil before you grow food in an urban lot.', 'Compost and cover crops rebuild soil slowly but reliably.', 'Community gardens need long-term agreements, not just enthusiasm.'],
-      chap: ['What is in the ground', 'Raised beds or repairing the soil', 'Who gets the lot'],
-      topics: ['Soil health', 'Community gardens', 'Urban land'],
-      res: ['Checklist: testing soil in a city lot', 'Guide: building compost on a small site', 'Glossary: brownfield, topsoil, subsoil'] },
-    { n: 3, cat: 'land', gens: ['genx', 'millennials'], title: 'The Empty Lot Behind the Shops', date: '25 Aug 2026', dur: 2490,
-      guests: [{ n: 'Carlos Medina', g: 'genx', r: 'Town planner' }, { n: 'Anya Petrova', g: 'millennials', r: 'Urban designer' }],
-      summary: 'A planner and a designer argue about what to do with a vacant lot: build, grow, or leave it alone.',
-      about: "Every town has one: a patch of land that is nobody's priority. Carlos has seen what happens when plans wait ten years. Anya has seen what happens when plans rush. They walk through one lot and weigh housing, a park, a market and doing very little on purpose.",
-      take: ['Temporary uses can show what a place needs before money is spent on permanent ones.', 'Leaving land alone can be a plan, if it is a choice and not an accident.', 'Residents need to be in the room before the drawing is finished.'],
-      chap: ['Walking the lot', 'Housing, park or market', 'The case for doing very little'],
-      topics: ['Land use', 'Town planning', 'Public space'],
-      res: ['Guide: how local land decisions are made', 'Worksheet: map a vacant lot near you', 'Reading: temporary urbanism'] },
-    { n: 2, cat: 'environment', gens: ['genx', 'alpha'], title: 'The School Garden Rebellion', date: '18 Aug 2026', dur: 2190,
-      guests: [{ n: 'Judith Okoro', g: 'genx', r: 'Primary school teacher' }, { n: 'Leo (age 10)', g: 'alpha', r: 'Garden club member' }],
-      summary: 'A teacher and a ten-year-old tell the story of how a bare playground corner became the busiest spot in the school.',
-      about: 'It started with three pots and a petition. Judith and her garden club turned an unused corner into beds, a bug hotel and a compost heap. Leo explains what he has learned about worms, and Judith explains what she has learned about being taught by her students.',
-      take: ['Children take care of what they have helped to build.', 'A garden is a classroom for science, patience and teamwork.', 'Start small and let the pupils choose what grows.'],
-      chap: ['Three pots and a petition', 'What the worms taught us', 'Keeping it going over the holidays'],
-      topics: ['School gardens', 'Composting', 'Learning outdoors'],
-      res: ['Guide: starting a school garden', 'Plant list for beginners', 'Poster: what lives in a compost heap'] },
-    { n: 1, cat: 'environment', gens: ['boomers', 'genz'], title: 'Returnable Bottles and Refill Shops', date: '11 Aug 2026', dur: 2620,
-      guests: [{ n: 'Dorothy Hale', g: 'boomers', r: 'Retired shopkeeper' }, { n: 'Sam Idowu', g: 'genz', r: 'Zero-waste organiser' }],
-      summary: 'A retired shopkeeper who sold milk in glass bottles meets a young organiser who runs a refill shop.',
-      about: "Dorothy remembers deposits on every bottle and a delivery person who knew everyone's name. Sam runs a refill shop where customers bring their own jars. They discuss what was lost and gained between the two systems, and why reuse keeps being reinvented.",
-      take: ['Reuse is not new. Deposit systems worked well for decades.', 'Convenience and habit matter as much as good intentions.', 'Local shops can lead the way when the system makes reuse easy.'],
-      chap: ['Bottle deposits in the 1960s', 'Running a refill shop', 'Making reuse the easy choice'],
-      topics: ['Reuse', 'Packaging', 'Local shops'],
-      res: ['Guide: starting a refill shelf', 'Explainer: how deposit schemes work', 'Checklist: shopping with less packaging'] }
-  ];
-
-  var PLATFORMS = [
-    { n: 'Podbean', u: 'https://www.podbean.com' },
-    { n: 'Spotify', u: 'https://open.spotify.com' },
-    { n: 'Apple Podcasts', u: 'https://podcasts.apple.com' },
-    { n: 'YouTube', u: 'https://www.youtube.com' }
-  ];
 
   var BARS = 48, SPEED = 30;
   var cur = 0, t = 0, playing = false, timer = null;
   var popIdx = -1, popOpener = null;
   var F = { cat: 'All', gen: 'All', q: '' };
+
+  /* Real audio for episodes that have an "audio" file in content.js; others use the demo clock */
+  var au = new Audio(); au.preload = 'metadata';
+  function real() { return !!EP[cur].audio; }
+  au.addEventListener('loadedmetadata', function () { if (real() && isFinite(au.duration)) { EP[cur].dur = Math.round(au.duration); render(); } });
+  au.addEventListener('ended', function () { pause(); });
 
   var ICON = '<svg class="ic ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="ic ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>';
   var EXT = '<svg class="ic s" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg>';
@@ -1024,7 +918,7 @@ footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-t
     if (F.cat !== 'All' && e.cat !== F.cat) { return false; }
     if (F.gen !== 'All' && e.gens.indexOf(F.gen) < 0) { return false; }
     if (F.q) {
-      var hay = [e.title, e.summary, e.topics.join(' '), e.guests.map(function (g) { return g.n + ' ' + g.r; }).join(' '), CATS[e.cat].name].join(' ').toLowerCase();
+      var hay = [e.title, e.summary, e.tags.join(' '), e.guests.map(function (g) { return g.n + ' ' + g.r; }).join(' '), CATS[e.cat].name].join(' ').toLowerCase();
       if (hay.indexOf(F.q) < 0) { return false; }
     }
     return true;
@@ -1086,7 +980,7 @@ footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-t
       return '<article class="cat-card glass" data-cat="' + k + '">' +
         '<div class="cat-card-head"><span class="cat-icon">' + icon(c.icon) + '</span><div><span class="mono">' + c.tag + '</span><h3>' + c.name + '</h3></div></div>' +
         '<p class="muted">' + c.desc + '</p>' +
-        '<ul class="topic-list">' + c.topics.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ul>' +
+        '<ul class="topic-list">' + c.tags.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ul>' +
         '<div class="gens">' + gset.map(gpill).join('') + '</div>' +
         '<div class="cat-foot"><span class="cat-meta">' + plural(list.length, 'episode') + '</span><button class="btn btn-cat btn-sm" type="button" data-go="shows" data-fcat="' + k + '">View ' + c.name + ' episodes</button></div></article>';
     }).join('');
@@ -1150,19 +1044,26 @@ footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-t
     paint(); sync();
   }
   function tick() {
+    if (real()) { t = au.currentTime; paint(); return; }
     t += 0.25 * SPEED;
     if (t >= EP[cur].dur) { t = EP[cur].dur; pause(); }
     paint();
   }
   function play() {
     playing = true;
+    if (real()) { au.play().catch(function () { pause(); }); }
     clearInterval(timer);
     timer = setInterval(tick, 250);
     $('#miniWrap').hidden = false;
     sync();
   }
-  function pause() { playing = false; clearInterval(timer); sync(); }
-  function setEp(i) { cur = (i + EP.length) % EP.length; t = 0; heroBars = buildBars(wave, cur); heroLast = -1; render(); }
+  function pause() { playing = false; clearInterval(timer); au.pause(); sync(); }
+  function setEp(i) {
+    cur = (i + EP.length) % EP.length; t = 0;
+    au.pause();
+    if (EP[cur].audio) { au.src = EP[cur].audio; }
+    heroBars = buildBars(wave, cur); heroLast = -1; render();
+  }
   function toggle() { if (playing) { pause(); } else { if (t >= EP[cur].dur) { t = 0; } play(); } }
   function playEp(i) { if (i === cur) { toggle(); } else { setEp(i); play(); } }
 
@@ -1180,6 +1081,7 @@ footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-t
     var r = el.getBoundingClientRect();
     if (el.id === 'popWave' && popIdx !== cur) { setEp(popIdx); }
     t = Math.min(1, Math.max(0, (clientX - r.left) / r.width)) * EP[cur].dur;
+    if (real()) { au.currentTime = t; }
     paint();
   }
   document.addEventListener('pointerdown', function (e) { var w = e.target.closest('.wave'); if (w) { dragEl = w; seek(w, e.clientX); } });
@@ -1194,11 +1096,26 @@ footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-t
     else if (e.key === 'Home') { t = 0; }
     else if (e.key === 'End') { t = d; }
     else { return; }
+    if (real()) { au.currentTime = t; }
     e.preventDefault(); paint();
   });
 
   /* ---------- Episode popup ---------- */
   var FRAC = [0, 0.12, 0.42, 0.72, 0.9];
+  /* Chapters: use e.chapters = [{ t: '4:12', title: '...' }] from content.js when present.
+     Otherwise fall back to the old automatic spacing built from e.chap. */
+  function toSec(v) {
+    if (typeof v === 'number') { return v; }
+    return String(v).split(':').reduce(function (a, x) { return a * 60 + (parseFloat(x) || 0); }, 0);
+  }
+  function chapList(e) {
+    if (e.chapters && e.chapters.length) {
+      return e.chapters.map(function (c) { return { s: Math.round(toSec(c.t)), title: c.title }; });
+    }
+    return ["Each guest's question"].concat(e.chap || []).concat(['The swap']).map(function (title, k) {
+      return { s: Math.round(e.dur * FRAC[k]), title: title };
+    });
+  }
   function related(i) {
     var e = EP[i], out = [];
     EP.forEach(function (x, k) { if (k !== i && x.cat === e.cat) { out.push(k); } });
@@ -1208,7 +1125,7 @@ footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-t
   function shareURL() { return location.href.split('#')[0] + '#shows'; }
   function popHTML(i) {
     var e = EP[i], c = CATS[e.cat];
-    var chapters = ["Each guest's question"].concat(e.chap).concat(['The swap']);
+    var chapters = chapList(e);
     var url = shareURL();
     var text = 'Listening to "' + e.title + '" on the Intergenerational Podcast';
     var enc = encodeURIComponent;
@@ -1218,18 +1135,26 @@ footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-t
       { n: 'Facebook', u: 'https://www.facebook.com/sharer/sharer.php?u=' + enc(url) },
       { n: 'LinkedIn', u: 'https://www.linkedin.com/sharing/share-offsite/?url=' + enc(url) }
     ];
+    var img = e.img
+      ? '<img src="' + e.img + '" alt="' + e.title.replace(/"/g, '&quot;') + '" loading="lazy">'
+      : '';
+
     return '<div data-cat="' + e.cat + '">' +
-      '<div class="pop-head"><div class="cover xl" aria-hidden="true"></div><div>' +
-        '<div class="pop-meta"><span class="tag"><i></i>' + c.name + '</span><span class="mono">EP ' + e.n + '</span><span class="mono">' + e.date + '</span><span class="mono">' + Math.round(e.dur / 60) + ' min</span></div>' +
-        '<h2 id="popTitle">' + e.title + '</h2>' +
-        '<div class="gens">' + e.gens.map(gpill).join('') + '</div>' +
-      '</div></div>' +
+      '<div class="pop-head">' +
+        '<div class="pop-art"' + (e.img ? '' : ' aria-hidden="true"') + '>' + img + '</div>' +
+        '<div class="pop-intro">' +
+          '<div class="pop-meta"><span class="tag"><i></i>' + c.name + '</span><span class="mono">EP ' + e.n + '</span><span class="mono">' + e.date + '</span><span class="mono">' + Math.round(e.dur / 60) + ' min</span></div>' +
+          '<h2 id="popTitle">' + e.title + '</h2>' +
+          '<p class="pop-desc">' + e.description + '</p>' +
+          '<div class="gens">' + e.gens.map(gpill).join('') + '</div>' +
+        '</div>' +
+      '</div>' +
       '<div class="pop-body">' +
         '<div class="pop-player glass" id="popPlayer"><div class="row">' +
           '<button class="play-btn cat" id="popPlay" type="button" data-playing="false" aria-label="Play or pause this episode">' + ICON + '</button>' +
           '<div class="wave" id="popWave" role="slider" tabindex="0" aria-label="Playback position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div></div>' +
           '<div class="times mono"><span id="popCur">0:00</span><span>' + fmt(e.dur) + '</span></div>' +
-          '<p class="note">Demo player. No audio attached, runs at 30x speed.</p></div>' +
+          '<p class="note">' + (e.audio ? 'Playing the episode audio.' : 'Demo player. No audio attached, runs at 30x speed.') + '</p></div>' +
         '<div class="actions"><button class="btn btn-cat" id="popPlay2" type="button"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>Play episode</button>' +
           '<button class="btn btn-ghost" id="popShare" type="button" aria-expanded="false" aria-controls="sharePanel">' + icon('i-share') + 'Share</button></div>' +
         '<div class="share-panel glass" id="sharePanel" hidden>' +
@@ -1237,19 +1162,17 @@ footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-t
           '<div class="form-row"><input class="input" id="shareUrl" type="text" readonly value="' + url + '"><button class="btn btn-primary btn-sm" id="copyBtn" type="button">' + icon('i-copy') + 'Copy link</button></div>' +
           '<div class="share-links">' + social.map(function (s) { return '<a class="btn btn-ghost btn-sm" href="' + s.u + '" target="_blank" rel="noopener">' + s.n + EXT + '</a>'; }).join('') + '</div>' +
           '<p class="form-msg" id="copyMsg" role="status"></p></div>' +
-        '<div class="blk"><h3>Listen or watch on</h3><div class="actions">' + PLATFORMS.map(function (p) { return '<a class="btn btn-ghost btn-sm" href="' + p.u + '" target="_blank" rel="noopener">' + p.n + EXT + '</a>'; }).join('') + '</div>' +
-          '<p class="note">In this sample, each button opens the platform\'s home page.</p></div>' +
+        '<div class="blk"><h3>Listen</h3><div class="actions">' + PLATFORMS.map(function (p) { return '<a class="btn btn-ghost btn-sm" href="' + p.u + '" target="_blank" rel="noopener">' + p.n + EXT + '</a>'; }).join('') + '</div></div>' +
         '<div class="pop-grid">' +
           '<div class="pop-col">' +
-            '<div class="blk"><h3>About this episode</h3><p>' + e.about + '</p><p>' + e.summary + '</p></div>' +
+            '<div class="blk"><h3>About this episode</h3><p>' + e.about + '</p></div>' +
             '<div class="blk"><h3>Key takeaways</h3><ul class="ticks">' + e.take.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ul></div>' +
-            '<div class="blk"><h3>Chapters</h3><ul class="chapters">' + chapters.map(function (s, k) { return '<li><button type="button" data-chap="' + Math.round(e.dur * FRAC[k]) + '"><span class="mono">' + fmt(e.dur * FRAC[k]) + '</span><span>' + s + '</span></button></li>'; }).join('') + '</ul></div>' +
+            '<div class="blk"><h3>Chapters</h3><ul class="chapters">' + chapters.map(function (c) { return '<li><button type="button" data-chap="' + c.s + '"><span class="mono">' + fmt(c.s) + '</span><span>' + c.title + '</span></button></li>'; }).join('') + '</ul></div>' +
           '</div>' +
           '<div class="pop-col">' +
-            '<div class="blk"><h3>In this episode</h3><ul class="guest-list">' + e.guests.map(function (g) { return '<li class="guest-li" data-gen="' + g.g + '"><span class="avatar sm" aria-hidden="true">' + initials(g.n) + '</span><div><b>' + g.n + '</b><span class="muted">' + g.r + ' · ' + GEN[g.g].short + '</span></div></li>'; }).join('') + '</ul></div>' +
-            '<div class="blk"><h3>Topics</h3><ul class="topic-list">' + e.topics.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ul></div>' +
-            '<div class="blk"><h3>Show notes</h3><ul class="res-list">' + e.res.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ul></div>' +
-            '<div class="blk"><h3>Details</h3><dl class="det"><dt>Published</dt><dd>' + e.date + '</dd><dt>Length</dt><dd>' + fmt(e.dur) + '</dd><dt>Category</dt><dd>' + c.name + '</dd><dt>Generations</dt><dd>' + GEN[e.gens[0]].name + ' and ' + GEN[e.gens[1]].name + '</dd><dt>Format</dt><dd>Audio and video</dd></dl></div>' +
+            '<div class="blk"><h3>In this episode</h3><ul class="guest-list">' + e.guests.map(function (g) { return '<li class="guest-li" data-gen="' + g.g + '"><span class="avatar sm" aria-hidden="true">' + initials(g.n) + '</span><div><b>' + g.n + (g.t ? ' · ' + g.t : '') + '</b><span class="muted">' + g.r + '</span></div></li>'; }).join('') + '</ul></div>' +
+            '<div class="blk"><h3>Tags</h3><ul class="topic-list">' + e.tags.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ul></div>' +
+            '<div class="blk"><h3>Details</h3><dl class="det"><dt>Published</dt><dd>' + e.date + '</dd><dt>Length</dt><dd>' + fmt(e.dur) + '</dd><dt>Category</dt><dd>' + c.name + '</dd><dt>Generations</dt><dd>' + GEN[e.gens[0]].name + ' and ' + GEN[e.gens[1]].name + '</dd><dt>Format</dt><dd>Audio</dd></dl></div>' +
             '<div class="blk"><h3>More like this</h3><div class="more">' + related(i).map(function (k) { var x = EP[k]; return '<button type="button" data-open="' + k + '" data-cat="' + x.cat + '"><span class="cover" aria-hidden="true"></span><span><b>' + x.title + '</b><span class="mono muted">EP ' + x.n + ' · ' + CATS[x.cat].name + '</span></span></button>'; }).join('') + '</div></div>' +
           '</div>' +
         '</div>' +
@@ -1313,7 +1236,7 @@ footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-t
     if ((b = e.target.closest('[data-chap]'))) {
       var secs = +b.getAttribute('data-chap');
       if (popIdx !== cur) { setEp(popIdx); }
-      t = secs; paint(); if (!playing) { play(); }
+      t = secs; if (real()) { au.currentTime = t; } paint(); if (!playing) { play(); }
       return;
     }
     if ((b = e.target.closest('[data-open]'))) { openEp(+b.getAttribute('data-open')); }
@@ -1445,8 +1368,8 @@ footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-t
 
   /* ---------- Boot ---------- */
   renderGens(); renderCats(); renderShows();
-  heroBars = buildBars(wave, cur);
-  render(); readColors(); size();
+  setEp(0);
+  readColors(); size();
   route();
   window.scrollTo(0, 0);
   if (!reduce) { running = true; requestAnimationFrame(loop); }
