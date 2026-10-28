@@ -1,0 +1,1456 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Intergenerational Podcast</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Figtree:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: floating glass nav with four views (Home, Shows, Generations, Categories). Home opens on a hero whose
+   colours mix all six category themes; every other style stays as before. Episodes open in a podcast-page popup. */
+
+/* Dark first. Humus green-black ground, turmeric accent. Category and generation colours are shared by both themes. */
+:root {
+  --bg: #0b140f;
+  --fg: #e8efe2;
+  --muted: #a2b5a5;
+  --accent: #f0b43c;
+  --accent-ink: #1c1304;
+  --accent-text: #f3bf55;
+  --accent-line: rgba(240, 180, 60, .55);
+  --accent-rgb: 240, 180, 60;
+  --net: 168, 222, 180;
+  --moss: #6cc08a;
+  --clay: #dd7a4a;
+  --water: #5bb4d6;
+  --glass: rgba(255, 255, 255, .065);
+  --glass-2: rgba(255, 255, 255, .12);
+  --glass-border: rgba(255, 255, 255, .15);
+  --glass-hi: rgba(255, 255, 255, .14);
+  --shadow: 0 18px 50px rgba(0, 0, 0, .38);
+  --surface: #121f17;
+  --scrim: rgba(4, 9, 6, .66);
+  --blob1: #1f7a4d;
+  --blob2: #b97a14;
+  --blob3: #8f3a22;
+  --blob-o: .5;
+  --layer1: rgba(150, 200, 120, .20);
+  --layer2: rgba(176, 120, 70, .26);
+  --layer3: rgba(110, 72, 48, .40);
+  --m1: #5fd07d;
+  --m2: #d49a66;
+  --m3: #3fcaa0;
+  --m4: #52aaf0;
+  --m5: #b690f8;
+  --m6: #e8b24a;
+  --mesh-o: .36;
+  --g-boomers: #e0a43a;
+  --g-genx: #dd7a4a;
+  --g-millennials: #6cc08a;
+  --g-genz: #5bb4d6;
+  --g-alpha: #b39bf0;
+  --display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --body: 'Figtree', 'Segoe UI', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --r: 24px;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #edf3e4;
+    --fg: #12251a;
+    --muted: #47604f;
+    --accent-text: #8a4e00;
+    --accent-line: rgba(138, 78, 0, .55);
+    --accent-rgb: 196, 110, 0;
+    --net: 28, 100, 62;
+    --moss: #2f7d4f;
+    --clay: #b3501f;
+    --water: #2a7fa6;
+    --glass: rgba(255, 255, 255, .55);
+    --glass-2: rgba(255, 255, 255, .78);
+    --glass-border: rgba(30, 80, 50, .16);
+    --glass-hi: rgba(255, 255, 255, .9);
+    --shadow: 0 18px 50px rgba(40, 90, 60, .16);
+    --surface: #f8fbf3;
+    --scrim: rgba(18, 37, 26, .45);
+    --blob1: #7fcf9a;
+    --blob2: #f6c862;
+    --blob3: #f0a07c;
+    --blob-o: .65;
+    --layer1: rgba(120, 170, 90, .28);
+    --layer2: rgba(176, 120, 70, .30);
+    --layer3: rgba(120, 80, 50, .34);
+    --m1: #1f8a43;
+    --m2: #8f5424;
+    --m3: #12805f;
+    --m4: #1f6fbd;
+    --m5: #6a3fc0;
+    --m6: #a8620b;
+    --mesh-o: .52;
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #edf3e4;
+  --fg: #12251a;
+  --muted: #47604f;
+  --accent-text: #8a4e00;
+  --accent-line: rgba(138, 78, 0, .55);
+  --accent-rgb: 196, 110, 0;
+  --net: 28, 100, 62;
+  --moss: #2f7d4f;
+  --clay: #b3501f;
+  --water: #2a7fa6;
+  --glass: rgba(255, 255, 255, .55);
+  --glass-2: rgba(255, 255, 255, .78);
+  --glass-border: rgba(30, 80, 50, .16);
+  --glass-hi: rgba(255, 255, 255, .9);
+  --shadow: 0 18px 50px rgba(40, 90, 60, .16);
+  --surface: #f8fbf3;
+  --scrim: rgba(18, 37, 26, .45);
+  --blob1: #7fcf9a;
+  --blob2: #f6c862;
+  --blob3: #f0a07c;
+  --blob-o: .65;
+  --layer1: rgba(120, 170, 90, .28);
+  --layer2: rgba(176, 120, 70, .30);
+  --layer3: rgba(120, 80, 50, .34);
+  --m1: #1f8a43;
+  --m2: #8f5424;
+  --m3: #12805f;
+  --m4: #1f6fbd;
+  --m5: #6a3fc0;
+  --m6: #a8620b;
+  --mesh-o: .52;
+  color-scheme: light;
+}
+
+/* Category themes. Environment and climate are green and white, land is brown, ocean is blue and white,
+   agriculture mixes blue, brown and green, energy is purple. */
+[data-cat] { --a-text: color-mix(in srgb, var(--a) 58%, var(--fg)); }
+[data-cat="environment"] {
+  --a: #46b865;
+  --fill: linear-gradient(135deg, #4fc06b, #e4f7e8);
+  --cover: radial-gradient(circle at 26% 22%, rgba(255, 255, 255, .92), transparent 46%), repeating-radial-gradient(circle at 74% 80%, transparent 0 5px, rgba(255, 255, 255, .34) 5px 6px), linear-gradient(145deg, #55c871, #1c6b33);
+}
+[data-cat="land"] {
+  --a: #b9783f;
+  --fill: linear-gradient(135deg, #c98a52, #ecd2b0);
+  --cover: radial-gradient(circle at 26% 22%, rgba(255, 234, 205, .75), transparent 46%), repeating-radial-gradient(circle at 74% 80%, transparent 0 5px, rgba(255, 234, 205, .3) 5px 6px), linear-gradient(145deg, #c98a52, #5a3519);
+}
+[data-cat="climate"] {
+  --a: #2db38a;
+  --fill: linear-gradient(135deg, #38c29b, #e0f7f0);
+  --cover: radial-gradient(circle at 26% 22%, rgba(255, 255, 255, .9), transparent 46%), repeating-radial-gradient(circle at 74% 80%, transparent 0 5px, rgba(255, 255, 255, .32) 5px 6px), linear-gradient(145deg, #38c29b, #126650);
+}
+[data-cat="ocean"] {
+  --a: #3b9be0;
+  --fill: linear-gradient(135deg, #4aa6e8, #e3f2fd);
+  --cover: radial-gradient(circle at 26% 22%, rgba(255, 255, 255, .9), transparent 46%), repeating-radial-gradient(circle at 74% 80%, transparent 0 5px, rgba(255, 255, 255, .32) 5px 6px), linear-gradient(145deg, #4aa6e8, #14518c);
+}
+[data-cat="agriculture"] {
+  --a: #4fae7a;
+  --fill: linear-gradient(120deg, #4aa6e8, #c98a52 52%, #55c871);
+  --cover: radial-gradient(circle at 26% 22%, rgba(255, 255, 255, .55), transparent 46%), repeating-radial-gradient(circle at 74% 80%, transparent 0 5px, rgba(255, 255, 255, .28) 5px 6px), linear-gradient(145deg, #3b9be0, #a8693a 52%, #46b865);
+}
+[data-cat="energy"] {
+  --a: #9b6df0;
+  --fill: linear-gradient(135deg, #a77bf0, #e6dafc);
+  --cover: radial-gradient(circle at 26% 22%, rgba(255, 255, 255, .7), transparent 46%), repeating-radial-gradient(circle at 74% 80%, transparent 0 5px, rgba(255, 255, 255, .28) 5px 6px), linear-gradient(145deg, #a77bf0, #43238a);
+}
+[data-gen="boomers"] { --g: var(--g-boomers); }
+[data-gen="genx"] { --g: var(--g-genx); }
+[data-gen="millennials"] { --g: var(--g-millennials); }
+[data-gen="genz"] { --g: var(--g-genz); }
+[data-gen="alpha"] { --g: var(--g-alpha); }
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+html.lock { overflow: hidden; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 400 1rem/1.6 var(--body);
+  padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 10;
+  background: var(--bg);
+}
+a { color: inherit; }
+h1, h2, h3, h4, p, ul, ol, dl, dd { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.mono { font-family: var(--mono); font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; }
+.muted { color: var(--muted); }
+.ic { width: 1em; height: 1em; fill: currentColor; flex: none; }
+.ic.s { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Ambient background */
+.bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.blob { position: absolute; width: 52vmax; height: 52vmax; border-radius: 50%; filter: blur(80px); opacity: var(--blob-o); animation: drift 24s ease-in-out infinite alternate; }
+.blob.b1 { background: var(--blob1); top: -14vmax; left: -12vmax; }
+.blob.b2 { background: var(--blob2); top: 18vh; right: -16vmax; width: 44vmax; height: 44vmax; animation-duration: 30s; animation-delay: -8s; }
+.blob.b3 { background: var(--blob3); bottom: -20vmax; left: 22vw; width: 46vmax; height: 46vmax; animation-duration: 36s; animation-delay: -14s; }
+@keyframes drift { to { transform: translate(7vw, 5vh) scale(1.14); } }
+
+.page { position: relative; z-index: 1; overflow-x: clip; }
+.wrap { max-width: 1160px; margin-inline: auto; }
+
+/* Glass surface */
+.glass {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  backdrop-filter: blur(18px) saturate(1.4);
+  box-shadow: var(--shadow), inset 0 1px 0 var(--glass-hi);
+  border-radius: var(--r);
+}
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 22px; border-radius: 999px; border: 1px solid transparent; font-weight: 600; text-decoration: none; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+.btn:hover { transform: translateY(-2px); }
+.btn-primary { background: var(--accent); color: var(--accent-ink); }
+.btn-primary:hover { box-shadow: 0 10px 30px rgba(var(--accent-rgb), .4); }
+.btn-ghost { background: var(--glass); border-color: var(--glass-border); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+.btn-ghost:hover { background: var(--glass-2); }
+.btn-cat { background: var(--fill); color: var(--accent-ink); }
+.btn-sm { padding: 9px 16px; font-size: .92rem; }
+.icon-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--glass-border); background: var(--glass); display: grid; place-items: center; cursor: pointer; transition: background .2s ease; }
+.icon-btn:hover { background: var(--glass-2); }
+.play-btn { width: 46px; height: 46px; border-radius: 50%; border: 0; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; cursor: pointer; font-size: 1.25rem; transition: transform .2s ease, box-shadow .2s ease; flex: none; }
+.play-btn:hover { transform: scale(1.08); box-shadow: 0 8px 24px rgba(var(--accent-rgb), .45); }
+.play-btn.cat { background: var(--fill); }
+[data-playing="true"] .ic-play, [data-playing="false"] .ic-pause { display: none; }
+
+/* Nav */
+.nav { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 10px); z-index: 20; margin-top: 10px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; padding: 8px 8px 8px 16px; border-radius: 999px; }
+.brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 700; font-size: 1.12rem; letter-spacing: -.01em; text-decoration: none; min-width: 0; }
+.logo { width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; flex: none; }
+.logo svg { width: 20px; height: 20px; }
+.nav-links { display: flex; gap: 2px; }
+.nav-links a { display: block; padding: 8px 14px; border-radius: 999px; text-decoration: none; font-weight: 500; font-size: .95rem; transition: background .2s ease; white-space: nowrap; }
+.nav-links a:hover { background: var(--glass-2); }
+.nav-links a[aria-current="page"] { background: var(--glass-2); box-shadow: inset 0 0 0 1px var(--glass-border); font-weight: 600; }
+.nav-actions { display: flex; align-items: center; gap: 8px; }
+.nav-actions .btn { padding: 9px 18px; }
+
+/* Views */
+.view { padding-bottom: 0; }
+
+/* Hero (home): the mesh mixes all six category colours */
+.hero { position: relative; isolation: isolate; padding-block: clamp(40px, 7vw, 88px); }
+.hero::before {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  inset: -20px -4% -20px;
+  border-radius: 56px;
+  background:
+    radial-gradient(34% 46% at 10% 18%, var(--m1), transparent 70%),
+    radial-gradient(30% 40% at 38% 6%, var(--m3), transparent 70%),
+    radial-gradient(34% 46% at 72% 10%, var(--m4), transparent 70%),
+    radial-gradient(32% 44% at 96% 40%, var(--m5), transparent 70%),
+    radial-gradient(34% 46% at 78% 96%, var(--m6), transparent 70%),
+    radial-gradient(34% 46% at 22% 92%, var(--m2), transparent 70%);
+  background-size: 120% 120%;
+  filter: blur(34px) saturate(1.1);
+  opacity: var(--mesh-o);
+  animation: mesh 22s ease-in-out infinite alternate;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 58%, transparent 100%);
+  mask-image: radial-gradient(ellipse at center, #000 58%, transparent 100%);
+}
+@keyframes mesh { to { background-position: 100% 100%; } }
+#net { position: absolute; z-index: -1; inset: -24px 0; width: 100%; height: calc(100% + 48px); pointer-events: none; -webkit-mask-image: radial-gradient(ellipse at center, #000 55%, transparent 100%); mask-image: radial-gradient(ellipse at center, #000 55%, transparent 100%); }
+.hero-grid { position: relative; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: clamp(28px, 5vw, 56px); align-items: center; }
+.hero-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; min-width: 0; }
+.eyebrow { display: inline-flex; align-items: center; gap: 10px; padding: 7px 14px; border-radius: 999px; }
+.pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--moss); box-shadow: 0 0 0 0 rgba(var(--net), .6); animation: pulse 2s ease-out infinite; }
+@keyframes pulse { to { box-shadow: 0 0 0 10px rgba(var(--net), 0); } }
+h1 { font-family: var(--display); font-weight: 700; font-size: clamp(2.5rem, 1.05rem + 6vw, 5.2rem); line-height: .98; letter-spacing: -.035em; text-wrap: balance; font-variation-settings: "opsz" 96; }
+.w { display: inline-block; animation: rise .9s cubic-bezier(.2, .7, .2, 1) both; animation-delay: calc(var(--i) * 80ms + 120ms); }
+.w-mix { background: linear-gradient(100deg, var(--m1), var(--m3), var(--m4), var(--m5), var(--m2), var(--m6), var(--m1)); background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: rise .9s cubic-bezier(.2, .7, .2, 1) both, shine 9s linear infinite; animation-delay: calc(var(--i) * 80ms + 120ms), 0s; }
+@keyframes shine { to { background-position: -220% 0; } }
+.w-sig { position: relative; color: var(--accent-text); }
+.w-sig svg { position: absolute; left: 0; bottom: -.14em; width: 100%; height: .3em; overflow: visible; }
+.w-sig path { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1; animation: draw 1.2s ease .9s both; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px); } }
+@keyframes draw { from { stroke-dashoffset: 1; } }
+.rise { animation: rise .9s cubic-bezier(.2, .7, .2, 1) both; animation-delay: var(--d, 0ms); }
+.lede { max-width: 54ch; font-size: clamp(1.05rem, 1rem + .4vw, 1.25rem); color: var(--muted); }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 8px 22px; color: var(--muted); }
+
+/* Covers */
+.cover { width: 56px; height: 56px; flex: none; border-radius: 16px; background: var(--cover); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25); }
+.cover.lg { width: 72px; height: 72px; border-radius: 20px; }
+.cover.xl { width: 132px; height: 132px; border-radius: 30px; }
+
+/* Player */
+.player { padding: 22px; display: flex; flex-direction: column; gap: 18px; border-radius: 28px; min-width: 0; }
+.player-top { display: flex; gap: 14px; align-items: center; }
+.player-top > div { min-width: 0; }
+.player h2 { font-family: var(--display); font-size: clamp(1.25rem, 1.05rem + .8vw, 1.6rem); line-height: 1.15; letter-spacing: -.015em; text-wrap: balance; }
+.guest { color: var(--muted); font-size: .95rem; }
+.wave { display: flex; align-items: center; gap: 3px; height: 72px; cursor: pointer; touch-action: none; }
+.wave i { flex: 1; min-width: 2px; height: calc(var(--bh) * 1%); border-radius: 3px; background: rgba(var(--net), .3); transition: background .25s ease; transform-origin: center; }
+.wave i.on { background: var(--accent); }
+[data-cat] .wave i.on { background: var(--a); }
+.playing .wave i { animation: bounce 1.1s ease-in-out infinite; animation-delay: calc(var(--k) * -70ms); }
+@keyframes bounce { 50% { transform: scaleY(.7); } }
+.times { display: flex; justify-content: space-between; color: var(--muted); font-variant-numeric: tabular-nums; }
+.controls { display: flex; align-items: center; justify-content: center; gap: 18px; }
+.controls .play-btn { width: 58px; height: 58px; font-size: 1.5rem; }
+.player-note { text-align: center; color: var(--muted); font-size: .72rem; }
+.player-link { align-self: center; }
+
+/* Pills and tags */
+.tag { display: inline-flex; align-items: center; gap: 7px; padding: 3px 11px; border-radius: 999px; border: 1px solid var(--glass-border); font-size: .8rem; font-weight: 500; }
+.tag i { width: 7px; height: 7px; border-radius: 50%; background: var(--a); }
+.gens { display: flex; flex-wrap: wrap; gap: 6px; }
+.gpill { display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: 999px; background: var(--glass); border: 1px solid var(--glass-border); font-size: .78rem; font-weight: 500; }
+.gpill i { width: 7px; height: 7px; border-radius: 50%; background: var(--g); }
+
+/* Ticker */
+.ticker { overflow: hidden; border-radius: 999px; padding: 14px 0; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.track { display: flex; width: max-content; animation: slide 46s linear infinite; }
+.ticker:hover .track { animation-play-state: paused; }
+.group { display: flex; flex: none; }
+.group span { display: flex; align-items: center; gap: 22px; padding-right: 22px; white-space: nowrap; color: var(--muted); }
+.group span::after { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); opacity: .8; }
+@keyframes slide { to { transform: translateX(-50%); } }
+
+/* Sections */
+.section { padding-block: clamp(56px, 8vw, 104px) 0; }
+.section.first { padding-block-start: clamp(36px, 5vw, 64px); }
+.section-head { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; max-width: 62ch; }
+.section-head .mono { color: var(--accent-text); }
+h2.title { font-family: var(--display); font-weight: 700; font-size: clamp(1.9rem, 1.2rem + 2.8vw, 3.1rem); line-height: 1.05; letter-spacing: -.03em; text-wrap: balance; }
+.head-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px; margin-bottom: 32px; }
+.head-row .section-head { margin-bottom: 0; }
+.filters { display: flex; flex-direction: column; gap: 14px; margin-bottom: 22px; }
+.filter-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.filter-row > .mono { min-width: 92px; color: var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { padding: 8px 16px; border-radius: 999px; border: 1px solid var(--glass-border); background: var(--glass); font-weight: 500; font-size: .9rem; cursor: pointer; transition: background .2s ease, transform .2s ease; }
+.chip:hover { background: var(--glass-2); }
+.chip[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
+.chip[data-fcat][data-cat][aria-pressed="true"] { background: var(--fill); }
+.chip[data-fgen][data-gen][aria-pressed="true"] { background: var(--g); }
+.search { position: relative; max-width: 420px; }
+.search .ic { position: absolute; left: 16px; top: 50%; translate: 0 -50%; color: var(--muted); }
+.search .input { width: 100%; padding-left: 44px; }
+.count { margin-bottom: 16px; color: var(--muted); }
+.empty { padding: 28px; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+
+/* Episode cards */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 18px; }
+.card { position: relative; padding: 22px; display: flex; flex-direction: column; gap: 14px; min-width: 0; background: linear-gradient(155deg, color-mix(in srgb, var(--a) 16%, transparent), var(--glass) 58%); transition: transform .3s cubic-bezier(.2, .7, .2, 1), border-color .3s ease; }
+.card:hover { transform: translateY(-5px); border-color: color-mix(in srgb, var(--a) 70%, transparent); }
+.card.is-current { border-color: color-mix(in srgb, var(--a) 70%, transparent); }
+.card-top { display: flex; align-items: center; gap: 14px; }
+.card-id { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+.card h3 { font-family: var(--display); font-size: 1.28rem; line-height: 1.2; letter-spacing: -.015em; text-wrap: balance; }
+.card-open { all: unset; cursor: pointer; display: block; }
+.card-open::after { content: ""; position: absolute; inset: 0; border-radius: var(--r); }
+.card-open:focus-visible { outline: none; }
+.card-open:focus-visible::after { outline: 2px solid var(--accent); outline-offset: 3px; }
+.blurb { color: var(--muted); font-size: .96rem; }
+.card-foot { margin-top: auto; padding-top: 6px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.card-play { position: relative; z-index: 2; }
+
+/* Generation strip and timeline */
+.gen-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); gap: 14px; }
+.gcard-mini { all: unset; box-sizing: border-box; cursor: pointer; padding: 18px; display: flex; flex-direction: column; gap: 6px; min-width: 0; border-radius: 20px; background: var(--glass); border: 1px solid var(--glass-border); transition: transform .25s ease, border-color .25s ease; }
+.gcard-mini:hover { transform: translateY(-4px); border-color: var(--g); }
+.gcard-mini:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.dot { width: 14px; height: 14px; border-radius: 50%; background: var(--g); margin-bottom: 4px; }
+.gcard-mini b, .gcard b { font-family: var(--display); font-size: 1.15rem; letter-spacing: -.01em; font-weight: 700; }
+.tl-wrap { padding: 20px; margin-bottom: 20px; }
+.tl-scroll { overflow-x: auto; padding-bottom: 6px; }
+.tl { position: relative; min-width: 600px; padding-bottom: 54px; }
+.tl-bar { position: relative; height: 78px; border-radius: 18px; overflow: hidden; background: var(--glass); }
+.tl-seg { position: absolute; top: 0; bottom: 0; left: var(--l); width: var(--w); border: 0; padding: 0 6px; background: var(--g); color: #14110a; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; cursor: pointer; font-weight: 600; font-size: .95rem; border-right: 2px solid var(--bg); transition: filter .2s ease; }
+.tl-seg small { font-family: var(--mono); font-size: .68rem; letter-spacing: .04em; font-weight: 500; }
+.tl-seg:hover, .tl-seg.is-hl { filter: brightness(1.12) saturate(1.1); }
+.tl-seg.is-hl { box-shadow: inset 0 0 0 3px rgba(20, 17, 10, .55); }
+.tl-alt { position: absolute; left: calc((2010 - 1946) / 79 * 100%); width: calc(3 / 79 * 100%); top: 0; height: 16px; background: repeating-linear-gradient(135deg, rgba(20, 17, 10, .55) 0 3px, transparent 3px 7px); pointer-events: none; }
+.tl-tick { position: absolute; top: 86px; left: var(--l); translate: -50% 0; font-family: var(--mono); font-size: .72rem; color: var(--muted); text-align: center; white-space: nowrap; }
+.tl-tick::before { content: ""; display: block; width: 1px; height: 8px; margin: 0 auto 4px; background: var(--glass-border); }
+.tl-tick:first-of-type { translate: 0 0; }
+.tl-tick:last-of-type { translate: -100% 0; }
+.tl-note { margin-top: 14px; color: var(--muted); font-size: .9rem; }
+.gens-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: 18px; }
+.gcard { padding: 24px; display: flex; flex-direction: column; gap: 14px; min-width: 0; transition: border-color .3s ease; }
+.gcard.is-hl { border-color: var(--g); }
+.gcard-head { display: flex; align-items: center; gap: 14px; }
+.badge { width: 56px; height: 56px; border-radius: 18px; background: var(--g); color: #14110a; display: grid; place-items: center; flex: none; font-family: var(--mono); font-size: .66rem; font-weight: 500; line-height: 1.25; text-align: center; letter-spacing: .02em; }
+.gcard .stat { display: flex; flex-wrap: wrap; gap: 6px 18px; color: var(--muted); }
+.gcard .stat b { font-family: var(--mono); font-size: .86rem; font-weight: 500; color: var(--fg); letter-spacing: 0; }
+.shaped { display: flex; flex-wrap: wrap; gap: 6px; }
+.shaped li { padding: 3px 11px; border-radius: 999px; border: 1px solid var(--glass-border); font-size: .82rem; color: var(--muted); }
+.gcard-foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-top: 4px; }
+
+/* Categories */
+.cat-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 14px; }
+.cat-tile { all: unset; box-sizing: border-box; cursor: pointer; padding: 18px; display: flex; flex-direction: column; gap: 10px; min-width: 0; border-radius: 20px; border: 1px solid var(--glass-border); background: linear-gradient(155deg, color-mix(in srgb, var(--a) 22%, transparent), var(--glass) 70%); transition: transform .25s ease, border-color .25s ease; }
+.cat-tile:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--a) 70%, transparent); }
+.cat-tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.cat-tile b { font-family: var(--display); font-size: 1.15rem; letter-spacing: -.01em; font-weight: 700; }
+.cat-icon { width: 44px; height: 44px; border-radius: 14px; background: var(--fill); color: var(--accent-ink); display: grid; place-items: center; font-size: 1.35rem; flex: none; }
+.cats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 18px; }
+.cat-card { padding: 26px; display: flex; flex-direction: column; gap: 16px; min-width: 0; background: radial-gradient(circle at 100% 0%, rgba(255, 255, 255, .2), transparent 42%), linear-gradient(150deg, color-mix(in srgb, var(--a) 26%, transparent), var(--glass) 64%); transition: border-color .3s ease; }
+.cat-card:hover { border-color: color-mix(in srgb, var(--a) 70%, transparent); }
+.cat-card h3 { font-family: var(--display); font-size: 1.7rem; letter-spacing: -.02em; line-height: 1.1; }
+.cat-card-head { display: flex; align-items: center; gap: 16px; }
+.cat-card-head .cat-icon { width: 56px; height: 56px; border-radius: 18px; font-size: 1.7rem; }
+.cat-card .mono { color: var(--a-text); }
+.cat-meta { display: flex; flex-wrap: wrap; gap: 8px 20px; color: var(--muted); font-size: .92rem; }
+.cat-foot { margin-top: auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+
+/* Format */
+.profile { display: grid; gap: 12px; }
+.layer { display: grid; grid-template-columns: 124px minmax(0, 1fr); gap: 18px; }
+.depth { display: flex; flex-direction: column; justify-content: center; align-items: flex-end; gap: 4px; padding-right: 16px; border-right: 1px dashed var(--glass-border); color: var(--muted); text-align: right; }
+.depth b { color: var(--fg); font-weight: 500; }
+.layer-body { padding: 22px 26px; display: flex; flex-direction: column; justify-content: center; gap: 8px; border-radius: 22px; }
+.layer-body.l1 { min-height: 100px; background: var(--layer1); }
+.layer-body.l2 { min-height: 156px; background: var(--layer2); }
+.layer-body.l3 { min-height: 112px; background: var(--layer3); }
+.layer-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 16px; }
+.layer-body h3 { font-family: var(--display); font-size: 1.35rem; letter-spacing: -.015em; }
+.layer-body p { color: var(--muted); max-width: 62ch; }
+.layer-body .mono { color: var(--accent-text); }
+
+/* Hosts */
+.split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(24px, 5vw, 56px); align-items: center; }
+.split .section-head { margin-bottom: 0; }
+.hosts { display: grid; gap: 16px; }
+.host { display: flex; align-items: center; gap: 18px; padding: 22px; min-width: 0; }
+.avatar { width: 72px; height: 72px; flex: none; border-radius: 50%; display: grid; place-items: center; font-family: var(--display); font-weight: 700; font-size: 1.5rem; color: #14110a; background: var(--g, var(--accent)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35); }
+.avatar.sm { width: 44px; height: 44px; font-size: 1rem; }
+.host h3 { font-family: var(--display); font-size: 1.3rem; letter-spacing: -.01em; }
+.host p { color: var(--muted); font-size: .96rem; }
+
+/* Subscribe */
+.subscribe { padding: clamp(26px, 5vw, 52px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 56px); align-items: center; border-radius: 32px; background: linear-gradient(135deg, rgba(var(--accent-rgb), .16), var(--glass) 55%); }
+.subscribe .section-head { margin-bottom: 0; }
+.platforms { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+.form { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.form label { font-weight: 600; }
+.form-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.input { flex: 1 1 200px; min-width: 0; padding: 13px 18px; border-radius: 999px; border: 1px solid var(--glass-border); background: var(--glass-2); color: var(--fg); font: inherit; }
+.input::placeholder { color: var(--muted); }
+.form-msg { min-height: 1.6em; color: var(--muted); font-size: .92rem; }
+.form-msg.ok { color: var(--moss); }
+.form-msg.err { color: var(--clay); }
+
+footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-top: 1px solid var(--glass-border); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; color: var(--muted); font-size: .9rem; }
+.linklike { all: unset; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.linklike:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* Mini player */
+.mini-wrap { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; display: flex; justify-content: center; padding: 0 max(16px, env(safe-area-inset-left, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-right, 0px)); pointer-events: none; }
+.mini { pointer-events: auto; width: 100%; max-width: 520px; display: flex; align-items: center; gap: 12px; padding: 8px 10px 8px 8px; border-radius: 999px; animation: rise .5s cubic-bezier(.2, .7, .2, 1) both; background: var(--surface); }
+.mini .cover { width: 44px; height: 44px; border-radius: 50%; }
+.mini-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.mini-title { all: unset; cursor: pointer; font-weight: 600; font-size: .92rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mini-title:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.bar { height: 4px; border-radius: 4px; background: rgba(var(--net), .25); overflow: hidden; }
+.bar b { display: block; height: 100%; width: 0; background: var(--a, var(--accent)); }
+.mini .play-btn { width: 42px; height: 42px; font-size: 1.1rem; }
+
+/* Episode popup */
+.modal { position: fixed; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center; padding: calc(16px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) calc(16px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); background: var(--scrim); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); animation: fade .25s ease both; }
+@keyframes fade { from { opacity: 0; } }
+.frame { position: relative; display: flex; width: 100%; max-width: 900px; max-height: 100%; border-radius: 30px; background: var(--surface); border: 1px solid var(--glass-border); box-shadow: 0 30px 90px rgba(0, 0, 0, .5); overflow: hidden; animation: rise .4s cubic-bezier(.2, .7, .2, 1) both; }
+.sheet { flex: 1; min-width: 0; overflow-y: auto; overscroll-behavior: contain; }
+.close { position: absolute; top: 14px; right: 14px; z-index: 3; background: var(--surface); }
+.pop-head { padding: 30px 30px 24px; display: flex; flex-wrap: wrap; gap: 22px; align-items: center; background: linear-gradient(135deg, color-mix(in srgb, var(--a) 32%, transparent), transparent 72%); }
+.pop-head > div { min-width: 0; flex: 1 1 260px; display: flex; flex-direction: column; gap: 12px; padding-right: 36px; }
+.pop-head h2 { font-family: var(--display); font-size: clamp(1.6rem, 1.2rem + 1.8vw, 2.4rem); line-height: 1.08; letter-spacing: -.025em; text-wrap: balance; }
+.pop-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; color: var(--muted); }
+.pop-body { padding: 0 30px 32px; display: flex; flex-direction: column; gap: 26px; }
+.pop-player { padding: 20px; display: flex; flex-direction: column; gap: 12px; border-radius: 22px; }
+.pop-player .row { display: flex; align-items: center; gap: 16px; }
+.pop-player .wave { flex: 1; min-width: 0; height: 56px; }
+.pop-player .play-btn { width: 58px; height: 58px; font-size: 1.5rem; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.share-panel { padding: 18px; display: flex; flex-direction: column; gap: 14px; border-radius: 20px; }
+.share-panel .form-row { align-items: stretch; }
+.share-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.pop-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 28px 36px; }
+.pop-col { display: flex; flex-direction: column; gap: 26px; min-width: 0; }
+.blk { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.blk h3 { font-family: var(--mono); font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 500; color: var(--a-text); }
+.blk p { color: var(--muted); }
+.ticks { display: flex; flex-direction: column; gap: 10px; }
+.ticks li { position: relative; padding-left: 26px; color: var(--muted); }
+.ticks li::before { content: ""; position: absolute; left: 4px; top: .55em; width: 9px; height: 9px; border-radius: 50%; background: var(--a); }
+.chapters { display: flex; flex-direction: column; gap: 4px; }
+.chapters button { all: unset; box-sizing: border-box; width: 100%; cursor: pointer; display: flex; gap: 14px; align-items: baseline; padding: 9px 12px; border-radius: 12px; transition: background .2s ease; }
+.chapters button:hover { background: var(--glass-2); }
+.chapters button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.chapters .mono { min-width: 52px; color: var(--a-text); font-variant-numeric: tabular-nums; }
+.guest-list { display: flex; flex-direction: column; gap: 14px; }
+.guest-li { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.guest-li > div { display: flex; flex-direction: column; min-width: 0; }
+.guest-li .muted { font-size: .9rem; }
+.topic-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.topic-list li { padding: 4px 12px; border-radius: 999px; background: color-mix(in srgb, var(--a) 18%, transparent); border: 1px solid color-mix(in srgb, var(--a) 40%, transparent); font-size: .86rem; }
+.res-list { display: flex; flex-direction: column; gap: 8px; }
+.res-list li { color: var(--muted); padding-left: 18px; position: relative; }
+.res-list li::before { content: ""; position: absolute; left: 0; top: .7em; width: 8px; height: 2px; background: var(--a); }
+.det { display: grid; grid-template-columns: auto 1fr; gap: 8px 16px; }
+.det dt { color: var(--muted); }
+.det dd { min-width: 0; }
+.more { display: flex; flex-direction: column; gap: 8px; }
+.more button { all: unset; box-sizing: border-box; width: 100%; cursor: pointer; display: flex; align-items: center; gap: 12px; padding: 10px; border-radius: 14px; border: 1px solid var(--glass-border); background: var(--glass); transition: background .2s ease; }
+.more button:hover { background: var(--glass-2); }
+.more button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.more .cover { width: 40px; height: 40px; border-radius: 12px; }
+.more span { display: flex; flex-direction: column; min-width: 0; }
+.more b { font-weight: 600; font-size: .95rem; line-height: 1.3; }
+.note { font-size: .84rem; color: var(--muted); }
+
+@media (max-width: 860px) {
+  .hero-grid, .split, .subscribe { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 720px) {
+  .nav { border-radius: 28px; padding: 8px 10px 10px 14px; }
+  .nav-links { order: 3; width: 100%; overflow-x: auto; justify-content: space-between; }
+  .nav-links a { padding: 8px 10px; }
+  .pop-grid { grid-template-columns: minmax(0, 1fr); }
+  .pop-head, .pop-body { padding-inline: 20px; }
+  .cover.xl { width: 96px; height: 96px; border-radius: 24px; }
+}
+@media (max-width: 520px) {
+  .brand { font-size: 1rem; }
+  .nav-actions .btn { display: none; }
+  .filter-row > .mono { min-width: 100%; }
+}
+@media (max-width: 560px) {
+  .layer { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .depth { align-items: flex-start; text-align: left; border-right: 0; padding-right: 0; flex-direction: row; gap: 10px; }
+  .host { flex-direction: column; align-items: flex-start; }
+  .pop-player .row { flex-wrap: wrap; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+  .track { flex-wrap: wrap; width: auto; }
+  .group[aria-hidden="true"] { display: none; }
+  .group { flex-wrap: wrap; row-gap: 8px; padding-inline: 20px; }
+  .ticker { border-radius: 24px; -webkit-mask-image: none; mask-image: none; }
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-logo" viewBox="0 0 24 24"><circle cx="9" cy="12" r="5.5"/><circle cx="15" cy="12" r="5.5"/></symbol>
+    <symbol id="i-contrast" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3a9 9 0 0 1 0 18Z"/></symbol>
+    <symbol id="i-prev" viewBox="0 0 24 24"><path d="M6 5h2v14H6zM20 5v14L9.5 12z"/></symbol>
+    <symbol id="i-next" viewBox="0 0 24 24"><path d="M16 5h2v14h-2zM4 5v14l10.5-7z"/></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15"/><path d="M5 19c3-5 6-8 10-10"/></symbol>
+    <symbol id="i-mountain" viewBox="0 0 24 24"><path d="M3 19 9.5 7l4 7 2.5-4L21 19Z"/></symbol>
+    <symbol id="i-thermo" viewBox="0 0 24 24"><path d="M10 14V5a2 2 0 0 1 4 0v9a4 4 0 1 1-4 0Z"/></symbol>
+    <symbol id="i-wave" viewBox="0 0 24 24"><path d="M2 9c2.5-3 5-3 7.5 0s5 3 7.5 0 3.5-2 5-1"/><path d="M2 15c2.5-3 5-3 7.5 0s5 3 7.5 0 3.5-2 5-1"/></symbol>
+    <symbol id="i-wheat" viewBox="0 0 24 24"><path d="M12 21V8"/><path d="M12 8c-2.5 0-4-1.5-4-4 2.5 0 4 1.5 4 4Z"/><path d="M12 8c2.5 0 4-1.5 4-4-2.5 0-4 1.5-4 4Z"/><path d="M12 14c-2.5 0-4-1.5-4-4 2.5 0 4 1.5 4 4Z"/><path d="M12 14c2.5 0 4-1.5 4-4-2.5 0-4 1.5-4 4Z"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 3 5 13.5h6L10 21l8-10.5h-6Z"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="m8.2 10.8 7.6-3.6M8.2 13.2l7.6 3.6"/></symbol>
+    <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6"/><path d="M20 4 10 14"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></symbol>
+  </defs>
+</svg>
+
+<div class="bg" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span></div>
+
+<div class="page" id="page">
+  <div class="wrap">
+    <header>
+      <nav class="nav glass" aria-label="Main">
+        <a class="brand" href="#home" aria-label="Intergenerational Podcast, home">
+          <span class="logo"><svg class="ic s" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-logo"/></svg></span>
+          Intergenerational Podcast
+        </a>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#home" data-view="home">Home</a></li>
+          <li><a href="#shows" data-view="shows">Shows</a></li>
+          <li><a href="#generations" data-view="generations">Generations</a></li>
+          <li><a href="#categories" data-view="categories">Categories</a></li>
+        </ul>
+        <div class="nav-actions">
+          <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-contrast"/></svg></button>
+          <button class="btn btn-primary" id="navListen" type="button">Listen</button>
+        </div>
+      </nav>
+    </header>
+
+    <main id="top">
+      <!-- HOME -->
+      <div class="view" id="view-home" data-view="home">
+        <section class="hero" aria-labelledby="h1">
+          <canvas id="net" aria-hidden="true"></canvas>
+          <div class="hero-grid">
+            <div class="hero-copy">
+              <span class="eyebrow glass rise mono" style="--d:0ms; border-radius:999px"><span class="pulse"></span>New conversation every Tuesday</span>
+              <h1 id="h1">
+                <span class="w" style="--i:0">Five</span>
+                <span class="w w-mix" style="--i:1">generations,</span>
+                <span class="w" style="--i:2">one</span>
+                <span class="w w-sig" style="--i:3">conversation.<svg viewBox="0 0 120 16" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M2 8 Q 12 0 22 8 T 42 8 T 62 8 T 82 8 T 102 8 T 118 8"/></svg></span>
+              </h1>
+              <p class="lede rise" style="--d:700ms">A weekly podcast that pairs two generations to talk about the planet: environment, land, climate, ocean, agriculture and energy. Each guest brings one question for the other, and every technical term is explained before we use it twice.</p>
+              <div class="cta rise" style="--d:820ms">
+                <button class="btn btn-primary" id="heroPlay" type="button"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>Play latest episode</button>
+                <a class="btn btn-ghost" href="#shows">Browse shows</a>
+              </div>
+              <div class="hero-meta mono rise" style="--d:940ms"><span>Weekly, Tuesdays</span><span>12 episodes</span><span>5 generations</span><span>6 categories</span></div>
+            </div>
+
+            <aside class="player glass rise" id="player" style="--d:500ms" aria-label="Now playing">
+              <div class="player-top">
+                <div class="cover lg" id="pCover" aria-hidden="true"></div>
+                <div>
+                  <p class="mono muted" id="pEp"></p>
+                  <h2 id="pTitle"></h2>
+                </div>
+              </div>
+              <p class="guest" id="pGuest"></p>
+              <div class="wave" id="wave" role="slider" tabindex="0" aria-label="Playback position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+              <div class="times mono"><span id="pCur">0:00</span><span id="pTot">0:00</span></div>
+              <div class="controls">
+                <button class="icon-btn" id="pPrev" type="button" aria-label="Previous episode"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-prev"/></svg></button>
+                <button class="play-btn cat" id="pPlay" type="button" data-playing="false" aria-label="Play or pause"><svg class="ic ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="ic ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>
+                <button class="icon-btn" id="pNext" type="button" aria-label="Next episode"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-next"/></svg></button>
+              </div>
+              <button class="btn btn-ghost btn-sm player-link" id="pDetails" type="button">Episode page, share and listen links</button>
+              <p class="player-note mono">Demo player. No audio attached, runs at 30x speed.</p>
+            </aside>
+          </div>
+        </section>
+
+        <div class="ticker glass" aria-label="Topics we cover">
+          <div class="track">
+            <div class="group mono"><span>Returnable bottles</span><span>School gardens</span><span>Soil under concrete</span><span>Vacant lots</span><span>Rain diaries</span><span>Climate worry</span><span>Reef restoration</span><span>Fishers' logbooks</span><span>Farm handovers</span><span>Field sensors</span><span>Solar roofs</span><span>Home batteries</span></div>
+            <div class="group mono" aria-hidden="true"><span>Returnable bottles</span><span>School gardens</span><span>Soil under concrete</span><span>Vacant lots</span><span>Rain diaries</span><span>Climate worry</span><span>Reef restoration</span><span>Fishers' logbooks</span><span>Farm handovers</span><span>Field sensors</span><span>Solar roofs</span><span>Home batteries</span></div>
+          </div>
+        </div>
+
+        <section class="section" aria-labelledby="latest-h">
+          <div class="head-row">
+            <div class="section-head">
+              <span class="mono">Latest episodes</span>
+              <h2 class="title" id="latest-h">Fresh conversations</h2>
+              <p class="muted">Open any episode for the full page: notes, chapters, guests, play, share and where to listen.</p>
+            </div>
+            <button class="btn btn-ghost" type="button" data-go="shows">See all shows</button>
+          </div>
+          <div class="grid" id="homeGrid"></div>
+        </section>
+
+        <section class="section" aria-labelledby="homegen-h">
+          <div class="head-row">
+            <div class="section-head">
+              <span class="mono">Generations</span>
+              <h2 class="title" id="homegen-h">Who is at the table</h2>
+              <p class="muted">Every episode pairs two of these five generations.</p>
+            </div>
+            <button class="btn btn-ghost" type="button" data-go="generations">About the generations</button>
+          </div>
+          <div class="gen-strip" id="homeGens"></div>
+        </section>
+
+        <section class="section" aria-labelledby="homecat-h">
+          <div class="head-row">
+            <div class="section-head">
+              <span class="mono">Categories</span>
+              <h2 class="title" id="homecat-h">Six ways into the planet</h2>
+              <p class="muted">Each category has its own colours, so you can spot it across the site.</p>
+            </div>
+            <button class="btn btn-ghost" type="button" data-go="categories">About the categories</button>
+          </div>
+          <div class="cat-tiles" id="homeCats"></div>
+        </section>
+
+        <section class="section" aria-labelledby="fmt-h">
+          <div class="section-head">
+            <span class="mono">The format</span>
+            <h2 class="title" id="fmt-h">Every episode has three parts</h2>
+            <p class="muted">Two guests from two generations, one host, and a fixed shape so you always know where you are.</p>
+          </div>
+          <div class="profile">
+            <div class="layer">
+              <div class="depth mono"><b>Part one</b><span>0 to 5 min</span></div>
+              <div class="layer-body l1 glass">
+                <div class="layer-head"><h3>The Question</h3><span class="mono">5 min</span></div>
+                <p>Each guest brings one question for the other generation. They ask it cold, with no preparation from the other side.</p>
+              </div>
+            </div>
+            <div class="layer">
+              <div class="depth mono"><b>Part two</b><span>5 to 35 min</span></div>
+              <div class="layer-body l2 glass">
+                <div class="layer-head"><h3>The Conversation</h3><span class="mono">30 min</span></div>
+                <p>The main talk. Plain language, real examples, and room for the awkward questions and the stories that do not fit a headline.</p>
+              </div>
+            </div>
+            <div class="layer">
+              <div class="depth mono"><b>Part three</b><span>35 to 42 min</span></div>
+              <div class="layer-body l3 glass">
+                <div class="layer-head"><h3>The Swap</h3><span class="mono">7 min</span></div>
+                <p>Each guest recommends one habit, tool or story from their generation for the other to try, and everything is linked in the show notes.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="hosts-h">
+          <div class="split">
+            <div class="section-head">
+              <span class="mono">Your hosts</span>
+              <h2 class="title" id="hosts-h">Two hosts, twenty years apart</h2>
+              <p class="muted">Mira has watched landscapes change for three decades. Dev builds the tools that measure them. They disagree often, and usually politely.</p>
+            </div>
+            <div class="hosts">
+              <article class="host glass" data-gen="genx">
+                <div class="avatar" aria-hidden="true">MO</div>
+                <div><h3>Mira Okafor</h3><p class="mono muted">Environmental scientist · Gen X</p><p>Spends her weekends in the field and her weekdays explaining why a handful of dirt is a city.</p></div>
+              </article>
+              <article class="host glass" data-gen="genz">
+                <div class="avatar" aria-hidden="true">DR</div>
+                <div><h3>Dev Raman</h3><p class="mono muted">Climate-tech engineer · Gen Z</p><p>Builds low-cost sensors and keeps asking whether the data would change a single decision.</p></div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="sub-h">
+          <div class="subscribe glass">
+            <div class="section-head">
+              <span class="mono">Subscribe</span>
+              <h2 class="title" id="sub-h">Get every episode on Tuesday</h2>
+              <p class="muted">Follow on your player of choice, or join the list for one short email after each episode.</p>
+              <div class="platforms">
+                <a class="btn btn-ghost" href="https://www.podbean.com" target="_blank" rel="noopener">Podbean</a>
+                <a class="btn btn-ghost" href="https://open.spotify.com" target="_blank" rel="noopener">Spotify</a>
+                <a class="btn btn-ghost" href="https://podcasts.apple.com" target="_blank" rel="noopener">Apple Podcasts</a>
+                <a class="btn btn-ghost" href="https://www.youtube.com" target="_blank" rel="noopener">YouTube</a>
+              </div>
+            </div>
+            <form class="form" id="join" novalidate>
+              <label for="email">Episode notes by email</label>
+              <div class="form-row">
+                <input class="input" id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+                <button class="btn btn-primary" type="submit">Join the list</button>
+              </div>
+              <p class="form-msg" id="msg" role="status"></p>
+            </form>
+          </div>
+        </section>
+      </div>
+
+      <!-- SHOWS -->
+      <div class="view" id="view-shows" data-view="shows" hidden>
+        <section class="section first" aria-labelledby="shows-h">
+          <div class="section-head">
+            <span class="mono">Shows</span>
+            <h2 class="title" id="shows-h">All episodes</h2>
+            <p class="muted">Filter by category or by generation, or search for a guest or topic. Open an episode for its own page.</p>
+          </div>
+          <div class="filters">
+            <div class="filter-row">
+              <span class="mono">Category</span>
+              <div class="chips" id="catChips" role="group" aria-label="Filter episodes by category"></div>
+            </div>
+            <div class="filter-row">
+              <span class="mono">Generation</span>
+              <div class="chips" id="genChips" role="group" aria-label="Filter episodes by generation"></div>
+            </div>
+            <div class="search">
+              <svg class="ic s" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-search"/></svg>
+              <label class="sr-only" for="q">Search episodes</label>
+              <input class="input" id="q" type="search" placeholder="Search guests, titles, topics" autocomplete="off">
+            </div>
+          </div>
+          <p class="count mono" id="count" role="status"></p>
+          <div class="grid" id="grid"></div>
+        </section>
+      </div>
+
+      <!-- GENERATIONS -->
+      <div class="view" id="view-generations" data-view="generations" hidden>
+        <section class="section first" aria-labelledby="gens-h">
+          <div class="section-head">
+            <span class="mono">Generations</span>
+            <h2 class="title" id="gens-h">Five generations, drawn to scale</h2>
+            <p class="muted">Each episode pairs two of them. The bar below is scaled by birth year, so wider means more years. Select a generation to read about it.</p>
+          </div>
+          <div class="tl-wrap glass">
+            <div class="tl-scroll">
+              <div class="tl" id="tl" role="group" aria-label="Generations by birth year"></div>
+            </div>
+            <p class="tl-note">Boundaries differ between sources, so treat the years as a guide. The hatched area marks 2010 to 2012, where some definitions start Generation Alpha. Ages are for 2026.</p>
+          </div>
+          <div class="gens-grid" id="gensGrid"></div>
+        </section>
+      </div>
+
+      <!-- CATEGORIES -->
+      <div class="view" id="view-categories" data-view="categories" hidden>
+        <section class="section first" aria-labelledby="cats-h">
+          <div class="section-head">
+            <span class="mono">Categories</span>
+            <h2 class="title" id="cats-h">Six categories, six colour themes</h2>
+            <p class="muted">Environment and climate are green and white, land is brown, ocean is blue and white, agriculture mixes blue, brown and green, and energy is purple.</p>
+          </div>
+          <div class="cats-grid" id="catsGrid"></div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <span>Intergenerational Podcast. This is a sample site: every name, episode and number is a placeholder.</span>
+      <button class="linklike" id="toTop" type="button">Back to top</button>
+    </footer>
+  </div>
+</div>
+
+<div class="mini-wrap" id="miniWrap" hidden>
+  <div class="mini glass" id="mini" aria-label="Mini player" data-cat="energy">
+    <div class="cover" aria-hidden="true"></div>
+    <div class="mini-info"><button class="mini-title" id="mTitle" type="button"></button><div class="bar"><b id="mFill"></b></div></div>
+    <button class="play-btn cat" id="mPlay" type="button" data-playing="false" aria-label="Play or pause"><svg class="ic ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="ic ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>
+  </div>
+</div>
+
+<div class="modal" id="modal" hidden>
+  <div class="frame" id="frame" role="dialog" aria-modal="true" aria-labelledby="popTitle">
+    <button class="icon-btn close" id="popClose" type="button" aria-label="Close episode page"><svg class="ic s" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-close"/></svg></button>
+    <div class="sheet" id="sheet"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Data ---------- */
+  var CATS = {
+    environment: { name: 'Environment', icon: 'i-leaf', tag: 'Living systems', desc: 'Everyday habits and local ecosystems: waste, wildlife, gardens and the choices households make. Guests compare how their generation learned to look after the places around them.', topics: ['Waste and reuse', 'Wildlife', 'School and community gardens'] },
+    land: { name: 'Land', icon: 'i-mountain', tag: 'Ground and ownership', desc: 'Who uses land, who owns it and what it can recover from. Soil, city lots, forests and the long memory of a place.', topics: ['Soil health', 'Urban land', 'Rewilding'] },
+    climate: { name: 'Climate', icon: 'i-thermo', tag: 'Weather and warming', desc: 'How the weather is changing and how it feels to live through it. Records, forecasts, worry and practical hope across age groups.', topics: ['Weather records', 'Climate worry', 'Adaptation'] },
+    ocean: { name: 'Ocean', icon: 'i-wave', tag: 'Coasts and seas', desc: 'Reefs, fisheries and coastlines as remembered by people who worked them and measured by people who study them now.', topics: ['Reefs', 'Fisheries', 'Coastal communities'] },
+    agriculture: { name: 'Agriculture', icon: 'i-wheat', tag: 'Fields, water and food', desc: 'Farming across generations: handing over the farm, adopting new tools and deciding what is worth keeping. Land, water and food in one place.', topics: ['Farm succession', 'Precision tools', 'Food systems'] },
+    energy: { name: 'Energy', icon: 'i-bolt', tag: 'Power and fuel', desc: 'Where power comes from and where it is heading. Stoves, grids, batteries and rooftops, explained by people who each grew up with a different electricity bill.', topics: ['Solar power', 'Batteries', 'Power grids'] }
+  };
+  var CAT_ORDER = ['environment', 'land', 'climate', 'ocean', 'agriculture', 'energy'];
+
+  var GENS = [
+    { id: 'boomers', name: 'Baby Boomers', short: 'Boomers', aka: 'Boomers', from: 1946, to: 1964, born: '1946 to 1964', ages: '62 to 80', desc: 'Born during the post-World War II baby boom. Experienced major social changes, economic expansion, and the rise of television culture.', shaped: ['Post-war economic expansion', 'The rise of television', 'Mass social movements'] },
+    { id: 'genx', name: 'Generation X', short: 'Gen X', aka: 'Gen X', from: 1965, to: 1980, born: '1965 to 1980', ages: '46 to 61', desc: 'A smaller generation raised between the broadcast era and the internet. Many remember a childhood without personal computers and a working life that ran through the arrival of email and mobile phones.', shaped: ['Personal computers arriving at home', 'Cable and music television', 'Economic shocks in early careers'] },
+    { id: 'millennials', name: 'Millennials', short: 'Millennials', aka: 'Generation Y', from: 1981, to: 1996, born: '1981 to 1996', ages: '30 to 45', desc: 'The first generation to grow up alongside the public internet. Many entered the job market during the 2008 financial crisis and now balance careers, housing costs and young families.', shaped: ['The public internet', 'The 2008 financial crisis', 'Smartphones in early adulthood'] },
+    { id: 'genz', name: 'Generation Z', short: 'Gen Z', aka: 'Gen Z or Zoomers', from: 1997, to: 2012, born: '1997 to 2012', ages: '14 to 29', desc: 'Digital natives who have never known a world without smartphones and social media. They came of age with climate protest, remote school and online communities.', shaped: ['Smartphones and social media', 'Climate strikes', 'Remote learning'] },
+    { id: 'alpha', name: 'Generation Alpha', short: 'Gen Alpha', aka: 'Gen Alpha', from: 2013, to: 2024, born: '2013 to 2024, some sources start in 2010', ages: '2 to 16', desc: 'The first generation born entirely in the 21st century. They are growing up with tablets, voice assistants and AI tools, and the oldest are only now starting secondary school.', shaped: ['Tablets and streaming video', 'Voice assistants', 'AI tools in everyday life'] }
+  ];
+  var GEN = {};
+  GENS.forEach(function (g) { GEN[g.id] = g; });
+
+  var EP = [
+    { n: 12, cat: 'energy', gens: ['millennials', 'alpha'], title: 'The Battery Questions Kids Ask', date: '27 Oct 2026', dur: 2410,
+      guests: [{ n: 'Nadia Farouk', g: 'millennials', r: 'Grid engineer' }, { n: 'Ishaan (age 11)', g: 'alpha', r: 'School science club' }],
+      summary: "A grid engineer takes on a school science club's hardest questions about batteries, power cuts and where electricity really comes from.",
+      about: 'Ishaan arrives with a list of questions collected from his whole science club: why do phones die, who turns the lights on, and can a battery run a house? Nadia answers each one with something you can see or hold, then admits where the grown-up answer is still "it depends". They end up designing a tiny town powered by sun, wind and one very large battery.',
+      take: ['A battery stores energy but does not make it, so something has to charge it first.', 'Power cuts usually come from the wires between us and the power station, not from running out of fuel.', 'Children ask the questions adults stopped asking, and those questions are often the useful ones.'],
+      chap: ['How electricity reaches a house', 'Why batteries run out', 'Designing a town on sun and wind'],
+      topics: ['Batteries', 'Power grids', 'Solar power'],
+      res: ['Explainer: how a home battery works', 'Diagram: one day on the grid', 'Activity: build a lemon battery'] },
+    { n: 11, cat: 'energy', gens: ['boomers', 'genz'], title: 'From Coal Stove to Solar Roof', date: '20 Oct 2026', dur: 2760,
+      guests: [{ n: 'Margaret Ellison', g: 'boomers', r: 'Retired electrician' }, { n: 'Kai Tan', g: 'genz', r: 'Solar installer' }],
+      summary: 'A retired electrician and a young solar installer compare how households have heated, cooked and paid for power over fifty years.',
+      about: 'Margaret wired houses when a fuse box was the smartest thing in the building. Kai fits panels, batteries and smart meters on those same houses today. They trade stories about the jobs that went wrong, the rules that changed, and what a roof is for.',
+      take: ['Many old wiring habits still protect people, even on a modern solar system.', 'Rooftop solar changes the question from what power costs to when we use it.', 'Trades knowledge passes on best on the job, side by side.'],
+      chap: ['Heating homes in the 1970s', 'What a solar job involves today', 'Training the next installers'],
+      topics: ['Solar roofs', 'Home wiring', 'Skills and trades'],
+      res: ['Checklist: questions to ask a solar installer', 'Guide: reading your electricity bill', 'Short history of home heating'] },
+    { n: 10, cat: 'agriculture', gens: ['genx', 'genz'], title: 'Apps in the Rice Field', date: '13 Oct 2026', dur: 2950,
+      guests: [{ n: 'Suresh Pillai', g: 'genx', r: 'Rice farmer' }, { n: 'Leila Haddad', g: 'genz', r: 'Agritech developer' }],
+      summary: "A rice farmer tests a young developer's water-level app against a lifetime of weather sense.",
+      about: 'Leila has built an app that tells farmers when to open and close their field gates. Suresh has opinions. Over one season of testing they compare what the sensors say with what his eyes, boots and knees say, and find the places where each is right.',
+      take: ['A sensor is only useful if the reading changes a decision.', 'Local knowledge catches things that data from one field cannot.', 'Good tools get built with farmers, not delivered to them.'],
+      chap: ['Reading a field without a screen', 'Testing the app for one season', 'Where the two disagreed'],
+      topics: ['Water management', 'Farm technology', 'Rice growing'],
+      res: ['Notes: how a field water sensor works', 'Guide: questions to ask before buying farm tech', 'Template: a simple field diary'] },
+    { n: 9, cat: 'agriculture', gens: ['boomers', 'millennials'], title: 'Passing the Plough', date: '6 Oct 2026', dur: 3120,
+      guests: [{ n: 'Walter Brandt', g: 'boomers', r: 'Grain and dairy farmer' }, { n: 'Chloe Anders', g: 'millennials', r: 'Returning farmer' }],
+      summary: 'Handing a farm to the next generation is a money question, a land question and a family question. Walter and Chloe take all three.',
+      about: 'Walter has farmed the same fields for forty years and is working out how to hand them on. Chloe left a city job to farm and is working out how to afford it. They talk about land prices, debt, trust, and the day you stop being the one who decides.',
+      take: ['A handover works best when it is planned over years, not announced in one.', 'Access to land is the hardest part for new farmers, more than skill.', 'Clear written agreements protect families as much as businesses.'],
+      chap: ['What forty years on one farm teaches', 'Why a new farmer cannot just buy land', 'Writing the handover plan'],
+      topics: ['Farm succession', 'Land access', 'Family business'],
+      res: ['Checklist: planning a farm handover', 'Glossary: leasing, share-farming, trusts', 'Story: three farms that changed hands'] },
+    { n: 8, cat: 'ocean', gens: ['boomers', 'millennials'], title: "The Fisher's Logbook", date: '29 Sep 2026', dur: 2330,
+      guests: [{ n: 'Tomas Aguilar', g: 'boomers', r: 'Retired fisher' }, { n: 'Priya Venkat', g: 'millennials', r: 'Fisheries data scientist' }],
+      summary: 'Thirty years of handwritten catch notes become data a scientist can finally use.',
+      about: "Tomas kept a logbook of every trip: date, wind, depth, catch. Priya turned the pages into a spreadsheet and found a record that official surveys never captured. They talk about what the numbers show, what they cannot show, and why a fisher's memory counts as evidence.",
+      take: ['Old logbooks can fill gaps that formal surveys missed.', 'Fishers notice change long before it appears in official reports.', 'Data and experience check each other, so each is stronger with the other.'],
+      chap: ['A day on the boat in 1985', 'Typing up the logbooks', 'What the catch records show'],
+      topics: ['Fisheries', 'Citizen data', 'Local knowledge'],
+      res: ['Guide: turning paper logs into a dataset', 'Explainer: what a fish stock is', 'Reading list: fishing community histories'] },
+    { n: 7, cat: 'ocean', gens: ['genx', 'genz'], title: 'The Reef Our Parents Dived', date: '22 Sep 2026', dur: 2660,
+      guests: [{ n: 'Elena Costa', g: 'genx', r: 'Dive instructor' }, { n: 'Marcus Oyelaran', g: 'genz', r: 'Marine biologist' }],
+      summary: 'A dive instructor describes the reefs she first saw as a teenager, and a young biologist describes how they are being restored.',
+      about: 'Elena has dived the same reef for thirty years and can name the spots that have changed. Marcus works on coral nurseries that regrow broken pieces. They compare photographs, notes and feelings, and ask what a healthy reef should mean to someone who has only ever seen a damaged one.',
+      take: ['Each generation tends to treat the reef it first saw as normal, which hides how much has changed.', 'Coral nurseries help, but they work best alongside cleaner water and cooler seas.', 'Photographs from older divers are useful records.'],
+      chap: ['Diving in the 1990s', 'How a coral nursery works', 'What counts as a healthy reef'],
+      topics: ['Coral reefs', 'Restoration', 'Shifting baselines'],
+      res: ['Explainer: what coral bleaching is', 'Gallery: then and now reef photos', 'Guide: how to join a reef survey'] },
+    { n: 6, cat: 'climate', gens: ['millennials', 'genz'], title: 'Climate Worry Has a Timeline', date: '15 Sep 2026', dur: 2870,
+      guests: [{ n: 'Dr. Hana Kobayashi', g: 'millennials', r: 'Climate psychologist' }, { n: 'Zoe Ramirez', g: 'genz', r: 'Student organiser' }],
+      summary: 'A psychologist and a student organiser talk about worry, fatigue and the habits that keep people going.',
+      about: 'Hana studies how people cope with bad news about the planet. Zoe organises climate events at her university and has felt the burnout first hand. They separate worry that pushes people to act from worry that freezes them, and share what has helped.',
+      take: ['Worry about the climate is common and is not a sign that something is wrong with you.', 'Small, regular actions with other people last longer than one big effort.', 'Rest is part of the work, not a break from it.'],
+      chap: ['How worry shows up', 'What burnout looks like in a campaign', 'Habits that help'],
+      topics: ['Climate worry', 'Youth organising', 'Wellbeing'],
+      res: ['Guide: talking about climate with family', 'List: ways to take part locally', 'Reading: coping with eco-anxiety'] },
+    { n: 5, cat: 'climate', gens: ['boomers', 'alpha'], title: "Grandpa's Rain Diary", date: '8 Sep 2026', dur: 2280,
+      guests: [{ n: 'Arthur Whitfield', g: 'boomers', r: 'Volunteer weather observer' }, { n: 'Mina (age 12)', g: 'alpha', r: 'School student' }],
+      summary: 'A volunteer weather observer shares fifty years of rain notes with a twelve-year-old who wants to know how the weather changed.',
+      about: 'Arthur has measured the rain at the bottom of his garden every morning since 1971. Mina brings graph paper and a laptop. Together they plot his notes and look at which years were wet, which were dry, and what a long record can and cannot tell us about a changing climate.',
+      take: ['A long, steady record is one of the most valuable things a citizen can make.', 'One wet or dry year is weather. A trend takes many years of data.', 'Anyone can start a rain diary with a jar and a ruler.'],
+      chap: ['Measuring rain every morning', 'Plotting fifty years by hand', 'Weather versus climate'],
+      topics: ['Rainfall records', 'Citizen science', 'Weather and climate'],
+      res: ['Activity: start your own rain gauge', 'Template: daily weather log', 'Explainer: weather versus climate'] },
+    { n: 4, cat: 'land', gens: ['genx', 'genz'], title: 'Soil Under the Concrete', date: '1 Sep 2026', dur: 2540,
+      guests: [{ n: 'Dr. Ingrid Solberg', g: 'genx', r: 'Soil scientist' }, { n: 'Devon Brooks', g: 'genz', r: 'Community garden founder' }],
+      summary: 'A soil scientist helps a young gardener bring life back to a lot that was a car park for thirty years.',
+      about: 'Devon wants to grow vegetables where a car park used to be. Ingrid explains what has to happen to the ground first: testing, compost, patience. They compare raised beds with repairing the soil itself and talk about who gets to decide what a city lot becomes.',
+      take: ['Test the soil before you grow food in an urban lot.', 'Compost and cover crops rebuild soil slowly but reliably.', 'Community gardens need long-term agreements, not just enthusiasm.'],
+      chap: ['What is in the ground', 'Raised beds or repairing the soil', 'Who gets the lot'],
+      topics: ['Soil health', 'Community gardens', 'Urban land'],
+      res: ['Checklist: testing soil in a city lot', 'Guide: building compost on a small site', 'Glossary: brownfield, topsoil, subsoil'] },
+    { n: 3, cat: 'land', gens: ['genx', 'millennials'], title: 'The Empty Lot Behind the Shops', date: '25 Aug 2026', dur: 2490,
+      guests: [{ n: 'Carlos Medina', g: 'genx', r: 'Town planner' }, { n: 'Anya Petrova', g: 'millennials', r: 'Urban designer' }],
+      summary: 'A planner and a designer argue about what to do with a vacant lot: build, grow, or leave it alone.',
+      about: "Every town has one: a patch of land that is nobody's priority. Carlos has seen what happens when plans wait ten years. Anya has seen what happens when plans rush. They walk through one lot and weigh housing, a park, a market and doing very little on purpose.",
+      take: ['Temporary uses can show what a place needs before money is spent on permanent ones.', 'Leaving land alone can be a plan, if it is a choice and not an accident.', 'Residents need to be in the room before the drawing is finished.'],
+      chap: ['Walking the lot', 'Housing, park or market', 'The case for doing very little'],
+      topics: ['Land use', 'Town planning', 'Public space'],
+      res: ['Guide: how local land decisions are made', 'Worksheet: map a vacant lot near you', 'Reading: temporary urbanism'] },
+    { n: 2, cat: 'environment', gens: ['genx', 'alpha'], title: 'The School Garden Rebellion', date: '18 Aug 2026', dur: 2190,
+      guests: [{ n: 'Judith Okoro', g: 'genx', r: 'Primary school teacher' }, { n: 'Leo (age 10)', g: 'alpha', r: 'Garden club member' }],
+      summary: 'A teacher and a ten-year-old tell the story of how a bare playground corner became the busiest spot in the school.',
+      about: 'It started with three pots and a petition. Judith and her garden club turned an unused corner into beds, a bug hotel and a compost heap. Leo explains what he has learned about worms, and Judith explains what she has learned about being taught by her students.',
+      take: ['Children take care of what they have helped to build.', 'A garden is a classroom for science, patience and teamwork.', 'Start small and let the pupils choose what grows.'],
+      chap: ['Three pots and a petition', 'What the worms taught us', 'Keeping it going over the holidays'],
+      topics: ['School gardens', 'Composting', 'Learning outdoors'],
+      res: ['Guide: starting a school garden', 'Plant list for beginners', 'Poster: what lives in a compost heap'] },
+    { n: 1, cat: 'environment', gens: ['boomers', 'genz'], title: 'Returnable Bottles and Refill Shops', date: '11 Aug 2026', dur: 2620,
+      guests: [{ n: 'Dorothy Hale', g: 'boomers', r: 'Retired shopkeeper' }, { n: 'Sam Idowu', g: 'genz', r: 'Zero-waste organiser' }],
+      summary: 'A retired shopkeeper who sold milk in glass bottles meets a young organiser who runs a refill shop.',
+      about: "Dorothy remembers deposits on every bottle and a delivery person who knew everyone's name. Sam runs a refill shop where customers bring their own jars. They discuss what was lost and gained between the two systems, and why reuse keeps being reinvented.",
+      take: ['Reuse is not new. Deposit systems worked well for decades.', 'Convenience and habit matter as much as good intentions.', 'Local shops can lead the way when the system makes reuse easy.'],
+      chap: ['Bottle deposits in the 1960s', 'Running a refill shop', 'Making reuse the easy choice'],
+      topics: ['Reuse', 'Packaging', 'Local shops'],
+      res: ['Guide: starting a refill shelf', 'Explainer: how deposit schemes work', 'Checklist: shopping with less packaging'] }
+  ];
+
+  var PLATFORMS = [
+    { n: 'Podbean', u: 'https://www.podbean.com' },
+    { n: 'Spotify', u: 'https://open.spotify.com' },
+    { n: 'Apple Podcasts', u: 'https://podcasts.apple.com' },
+    { n: 'YouTube', u: 'https://www.youtube.com' }
+  ];
+
+  var BARS = 48, SPEED = 30;
+  var cur = 0, t = 0, playing = false, timer = null;
+  var popIdx = -1, popOpener = null;
+  var F = { cat: 'All', gen: 'All', q: '' };
+
+  var ICON = '<svg class="ic ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="ic ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>';
+  var EXT = '<svg class="ic s" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg>';
+
+  function fmt(s) { s = Math.max(0, Math.floor(s)); return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+  function rng(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; var x = Math.imul(a ^ a >>> 15, 1 | a); x = x + Math.imul(x ^ x >>> 7, 61 | x) ^ x; return ((x ^ x >>> 14) >>> 0) / 4294967296; }; }
+  function initials(name) { var p = name.replace(/\(.*\)/, '').replace(/^Dr\.\s*/, '').trim().split(/\s+/); return (p[0][0] + (p.length > 1 ? p[p.length - 1][0] : '')).toUpperCase(); }
+  function gpill(id) { return '<span class="gpill" data-gen="' + id + '"><i></i>' + GEN[id].short + '</span>'; }
+  function icon(id) { return '<svg class="ic s" viewBox="0 0 24 24" aria-hidden="true"><use href="#' + id + '"/></svg>'; }
+  function epCount(test) { return EP.filter(test).length; }
+  function plural(n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); }
+
+  /* ---------- Episode cards ---------- */
+  function cardHTML(e, i) {
+    return '<article class="card glass" data-cat="' + e.cat + '" data-i="' + i + '">' +
+      '<div class="card-top"><div class="cover" aria-hidden="true"></div><div class="card-id"><span class="mono muted">EP ' + e.n + '</span><span class="tag"><i></i>' + CATS[e.cat].name + '</span></div></div>' +
+      '<h3><button class="card-open" type="button" data-open="' + i + '">' + e.title + '</button></h3>' +
+      '<div class="gens">' + e.gens.map(gpill).join('') + '</div>' +
+      '<p class="blurb">' + e.summary + '</p>' +
+      '<div class="card-foot"><span class="mono muted">' + e.date + ' · ' + Math.round(e.dur / 60) + ' min</span>' +
+      '<button class="play-btn cat card-play" type="button" data-play="' + i + '" data-playing="false" aria-label="Play EP ' + e.n + ': ' + e.title + '">' + ICON + '</button></div></article>';
+  }
+
+  /* ---------- Home sections ---------- */
+  $('#homeGrid').innerHTML = EP.slice(0, 6).map(function (e, i) { return cardHTML(e, i); }).join('');
+  $('#homeGens').innerHTML = GENS.map(function (g) {
+    var n = epCount(function (e) { return e.gens.indexOf(g.id) > -1; });
+    return '<button class="gcard-mini" type="button" data-gen="' + g.id + '" data-go="generations" data-hl="' + g.id + '"><span class="dot"></span><b>' + g.short + '</b><span class="mono muted">' + g.born.split(',')[0].replace(' to ', ' – ') + '</span><span class="muted">Age ' + g.ages.replace(' to ', ' to ') + ' in 2026</span><span class="muted">' + plural(n, 'episode') + '</span></button>';
+  }).join('');
+  $('#homeCats').innerHTML = CAT_ORDER.map(function (k) {
+    var n = epCount(function (e) { return e.cat === k; });
+    return '<button class="cat-tile" type="button" data-cat="' + k + '" data-go="shows" data-fcat="' + k + '"><span class="cat-icon">' + icon(CATS[k].icon) + '</span><b>' + CATS[k].name + '</b><span class="muted">' + plural(n, 'episode') + '</span></button>';
+  }).join('');
+
+  /* ---------- Shows ---------- */
+  var catChips = $('#catChips'), genChips = $('#genChips');
+  catChips.innerHTML = '<button class="chip" type="button" aria-pressed="true" data-fcat="All">All</button>' +
+    CAT_ORDER.map(function (k) { return '<button class="chip" type="button" aria-pressed="false" data-cat="' + k + '" data-fcat="' + k + '">' + CATS[k].name + '</button>'; }).join('');
+  genChips.innerHTML = '<button class="chip" type="button" aria-pressed="true" data-fgen="All">All</button>' +
+    GENS.map(function (g) { return '<button class="chip" type="button" aria-pressed="false" data-gen="' + g.id + '" data-fgen="' + g.id + '">' + g.short + '</button>'; }).join('');
+
+  function matches(e) {
+    if (F.cat !== 'All' && e.cat !== F.cat) { return false; }
+    if (F.gen !== 'All' && e.gens.indexOf(F.gen) < 0) { return false; }
+    if (F.q) {
+      var hay = [e.title, e.summary, e.topics.join(' '), e.guests.map(function (g) { return g.n + ' ' + g.r; }).join(' '), CATS[e.cat].name].join(' ').toLowerCase();
+      if (hay.indexOf(F.q) < 0) { return false; }
+    }
+    return true;
+  }
+  function renderShows() {
+    $$('.chip[data-fcat]').forEach(function (c) { c.setAttribute('aria-pressed', String(c.getAttribute('data-fcat') === F.cat)); });
+    $$('.chip[data-fgen]').forEach(function (c) { c.setAttribute('aria-pressed', String(c.getAttribute('data-fgen') === F.gen)); });
+    var list = [];
+    EP.forEach(function (e, i) { if (matches(e)) { list.push(cardHTML(e, i)); } });
+    var label = 'Showing ' + list.length + ' of ' + EP.length + ' episodes';
+    if (F.cat !== 'All') { label += ' in ' + CATS[F.cat].name; }
+    if (F.gen !== 'All') { label += ' with ' + GEN[F.gen].short; }
+    $('#count').textContent = label;
+    $('#grid').innerHTML = list.length ? list.join('') : '<div class="empty glass"><p>No episodes match these filters.</p><button class="btn btn-ghost btn-sm" type="button" data-clear="1">Clear filters</button></div>';
+    sync();
+  }
+  function setFilters(cat, gen) {
+    F.cat = cat || 'All'; F.gen = gen || 'All'; F.q = '';
+    $('#q').value = '';
+    renderShows();
+  }
+  catChips.addEventListener('click', function (ev) { var b = ev.target.closest('.chip'); if (!b) { return; } F.cat = b.getAttribute('data-fcat'); renderShows(); });
+  genChips.addEventListener('click', function (ev) { var b = ev.target.closest('.chip'); if (!b) { return; } F.gen = b.getAttribute('data-fgen'); renderShows(); });
+  $('#q').addEventListener('input', function (ev) { F.q = ev.target.value.trim().toLowerCase(); renderShows(); });
+
+  /* ---------- Generations ---------- */
+  var SPAN0 = 1946, SPAN = 79;
+  function renderGens() {
+    var tl = '<div class="tl-bar">' + GENS.map(function (g) {
+      var l = (g.from - SPAN0) / SPAN * 100, w = (g.to + 1 - g.from) / SPAN * 100;
+      return '<button class="tl-seg" type="button" data-gen="' + g.id + '" data-hl="' + g.id + '" style="--l:' + l.toFixed(3) + '%;--w:' + w.toFixed(3) + '%" aria-label="' + g.name + ', born ' + g.born + '"><span>' + g.short + '</span><small>' + g.from + '</small></button>';
+    }).join('') + '<span class="tl-alt" aria-hidden="true"></span></div>';
+    [1946, 1965, 1981, 1997, 2013, 2025].forEach(function (y) {
+      tl += '<span class="tl-tick" style="--l:' + ((y - SPAN0) / SPAN * 100).toFixed(3) + '%">' + (y === 2025 ? '2024' : y) + '</span>';
+    });
+    $('#tl').innerHTML = tl;
+    $('#gensGrid').innerHTML = GENS.map(function (g) {
+      var n = epCount(function (e) { return e.gens.indexOf(g.id) > -1; });
+      return '<article class="gcard glass" id="gen-' + g.id + '" data-gen="' + g.id + '">' +
+        '<div class="gcard-head"><span class="badge" aria-hidden="true">' + g.from + '<br>' + g.to + '</span><div><b>' + g.name + '</b><p class="muted">Also called ' + g.aka + '</p></div></div>' +
+        '<div class="stat mono"><span>Born <b>' + g.born + '</b></span><span>Age in 2026 <b>' + g.ages + '</b></span></div>' +
+        '<p class="muted">' + g.desc + '</p>' +
+        '<div><p class="mono muted" style="margin-bottom:8px">Shaped by</p><ul class="shaped">' + g.shaped.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ul></div>' +
+        '<div class="gcard-foot"><span class="muted">' + plural(n, 'episode') + ' on the podcast</span><button class="btn btn-ghost btn-sm" type="button" data-go="shows" data-fgen="' + g.id + '">See episodes</button></div></article>';
+    }).join('');
+  }
+  function highlightGen(id) {
+    $$('.tl-seg').forEach(function (s) { s.classList.toggle('is-hl', s.getAttribute('data-hl') === id); });
+    $$('.gcard').forEach(function (c) { c.classList.toggle('is-hl', c.getAttribute('data-gen') === id); });
+  }
+
+  /* ---------- Categories ---------- */
+  function renderCats() {
+    $('#catsGrid').innerHTML = CAT_ORDER.map(function (k) {
+      var c = CATS[k], list = EP.filter(function (e) { return e.cat === k; });
+      var gset = [];
+      list.forEach(function (e) { e.gens.forEach(function (g) { if (gset.indexOf(g) < 0) { gset.push(g); } }); });
+      gset.sort(function (a, b) { return GENS.indexOf(GEN[a]) - GENS.indexOf(GEN[b]); });
+      return '<article class="cat-card glass" data-cat="' + k + '">' +
+        '<div class="cat-card-head"><span class="cat-icon">' + icon(c.icon) + '</span><div><span class="mono">' + c.tag + '</span><h3>' + c.name + '</h3></div></div>' +
+        '<p class="muted">' + c.desc + '</p>' +
+        '<ul class="topic-list">' + c.topics.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ul>' +
+        '<div class="gens">' + gset.map(gpill).join('') + '</div>' +
+        '<div class="cat-foot"><span class="cat-meta">' + plural(list.length, 'episode') + '</span><button class="btn btn-cat btn-sm" type="button" data-go="shows" data-fcat="' + k + '">View ' + c.name + ' episodes</button></div></article>';
+    }).join('');
+  }
+
+  /* ---------- Player (hero, mini and popup share one clock) ---------- */
+  var heroBars = [], heroLast = -1, popBars = [], popLast = -1;
+  var wave = $('#wave');
+  function buildBars(el, ep) {
+    var r = rng(EP[ep].n * 97 + 13), out = [];
+    el.innerHTML = '';
+    for (var i = 0; i < BARS; i++) {
+      var b = document.createElement('i');
+      var shape = 0.62 + 0.38 * Math.sin(Math.PI * (i + 1) / (BARS + 1));
+      b.style.setProperty('--bh', Math.round((20 + r() * 62) * shape));
+      b.style.setProperty('--k', i);
+      el.appendChild(b);
+      out.push(b);
+    }
+    return out;
+  }
+  function paintBars(bars, last, frac) {
+    var n = Math.round(frac * BARS);
+    if (n !== last) { bars.forEach(function (b, i) { b.classList.toggle('on', i < n); }); }
+    return n;
+  }
+  function paint() {
+    var d = EP[cur].dur;
+    heroLast = paintBars(heroBars, heroLast, t / d);
+    $('#pCur').textContent = fmt(t);
+    $('#mFill').style.width = (t / d * 100) + '%';
+    wave.setAttribute('aria-valuenow', Math.round(t / d * 100));
+    if (popIdx > -1) {
+      var on = popIdx === cur;
+      popLast = paintBars(popBars, popLast, on ? t / d : 0);
+      var pc = $('#popCur'); if (pc) { pc.textContent = fmt(on ? t : 0); }
+      var pw = $('#popWave'); if (pw) { pw.setAttribute('aria-valuenow', on ? Math.round(t / d * 100) : 0); }
+    }
+  }
+  function sync() {
+    $('#player').classList.toggle('playing', playing);
+    $$('[data-playing]').forEach(function (b) {
+      var own = b.getAttribute('data-play');
+      var on = playing;
+      if (own !== null) { on = playing && +own === cur; }
+      if (b.id === 'popPlay') { on = playing && popIdx === cur; }
+      b.setAttribute('data-playing', String(on));
+    });
+    var pp = $('#popPlayer'); if (pp) { pp.classList.toggle('playing', playing && popIdx === cur); }
+    $$('.card').forEach(function (c) { c.classList.toggle('is-current', +c.getAttribute('data-i') === cur && (playing || t > 0)); });
+  }
+  function render() {
+    var e = EP[cur];
+    $('#player').setAttribute('data-cat', e.cat);
+    $('#mini').setAttribute('data-cat', e.cat);
+    $('#pEp').textContent = 'EP ' + e.n + ' · ' + CATS[e.cat].name;
+    $('#pTitle').textContent = e.title;
+    $('#pGuest').textContent = 'with ' + e.guests[0].n.replace(/\s*\(.*\)/, '') + ' and ' + e.guests[1].n.replace(/\s*\(.*\)/, '') + ' · ' + GEN[e.gens[0]].short + ' meets ' + GEN[e.gens[1]].short;
+    $('#pTot').textContent = fmt(e.dur);
+    $('#mTitle').textContent = 'EP ' + e.n + ' · ' + e.title;
+    paint(); sync();
+  }
+  function tick() {
+    t += 0.25 * SPEED;
+    if (t >= EP[cur].dur) { t = EP[cur].dur; pause(); }
+    paint();
+  }
+  function play() {
+    playing = true;
+    clearInterval(timer);
+    timer = setInterval(tick, 250);
+    $('#miniWrap').hidden = false;
+    sync();
+  }
+  function pause() { playing = false; clearInterval(timer); sync(); }
+  function setEp(i) { cur = (i + EP.length) % EP.length; t = 0; heroBars = buildBars(wave, cur); heroLast = -1; render(); }
+  function toggle() { if (playing) { pause(); } else { if (t >= EP[cur].dur) { t = 0; } play(); } }
+  function playEp(i) { if (i === cur) { toggle(); } else { setEp(i); play(); } }
+
+  $('#pPlay').addEventListener('click', toggle);
+  $('#mPlay').addEventListener('click', toggle);
+  $('#pPrev').addEventListener('click', function () { var w = playing; setEp(cur - 1); if (w) { play(); } });
+  $('#pNext').addEventListener('click', function () { var w = playing; setEp(cur + 1); if (w) { play(); } });
+  $('#heroPlay').addEventListener('click', function () { if (cur !== 0) { setEp(0); } if (!playing) { play(); } });
+  $('#pDetails').addEventListener('click', function (e) { openEp(cur, e.currentTarget); });
+  $('#mTitle').addEventListener('click', function (e) { openEp(cur, e.currentTarget); });
+  $('#navListen').addEventListener('click', function (e) { openEp(0, e.currentTarget); });
+
+  var dragEl = null;
+  function seek(el, clientX) {
+    var r = el.getBoundingClientRect();
+    if (el.id === 'popWave' && popIdx !== cur) { setEp(popIdx); }
+    t = Math.min(1, Math.max(0, (clientX - r.left) / r.width)) * EP[cur].dur;
+    paint();
+  }
+  document.addEventListener('pointerdown', function (e) { var w = e.target.closest('.wave'); if (w) { dragEl = w; seek(w, e.clientX); } });
+  window.addEventListener('pointermove', function (e) { if (dragEl) { seek(dragEl, e.clientX); } });
+  window.addEventListener('pointerup', function () { dragEl = null; });
+  document.addEventListener('keydown', function (e) {
+    var w = e.target.closest && e.target.closest('.wave'); if (!w) { return; }
+    if (w.id === 'popWave' && popIdx !== cur) { setEp(popIdx); }
+    var d = EP[cur].dur;
+    if (e.key === 'ArrowRight') { t = Math.min(d, t + d * 0.05); }
+    else if (e.key === 'ArrowLeft') { t = Math.max(0, t - d * 0.05); }
+    else if (e.key === 'Home') { t = 0; }
+    else if (e.key === 'End') { t = d; }
+    else { return; }
+    e.preventDefault(); paint();
+  });
+
+  /* ---------- Episode popup ---------- */
+  var FRAC = [0, 0.12, 0.42, 0.72, 0.9];
+  function related(i) {
+    var e = EP[i], out = [];
+    EP.forEach(function (x, k) { if (k !== i && x.cat === e.cat) { out.push(k); } });
+    EP.forEach(function (x, k) { if (k !== i && out.indexOf(k) < 0 && x.gens.some(function (g) { return e.gens.indexOf(g) > -1; })) { out.push(k); } });
+    return out.slice(0, 3);
+  }
+  function shareURL() { return location.href.split('#')[0] + '#shows'; }
+  function popHTML(i) {
+    var e = EP[i], c = CATS[e.cat];
+    var chapters = ["Each guest's question"].concat(e.chap).concat(['The swap']);
+    var url = shareURL();
+    var text = 'Listening to "' + e.title + '" on the Intergenerational Podcast';
+    var enc = encodeURIComponent;
+    var social = [
+      { n: 'WhatsApp', u: 'https://wa.me/?text=' + enc(text + ' ' + url) },
+      { n: 'X', u: 'https://twitter.com/intent/tweet?text=' + enc(text) + '&url=' + enc(url) },
+      { n: 'Facebook', u: 'https://www.facebook.com/sharer/sharer.php?u=' + enc(url) },
+      { n: 'LinkedIn', u: 'https://www.linkedin.com/sharing/share-offsite/?url=' + enc(url) }
+    ];
+    return '<div data-cat="' + e.cat + '">' +
+      '<div class="pop-head"><div class="cover xl" aria-hidden="true"></div><div>' +
+        '<div class="pop-meta"><span class="tag"><i></i>' + c.name + '</span><span class="mono">EP ' + e.n + '</span><span class="mono">' + e.date + '</span><span class="mono">' + Math.round(e.dur / 60) + ' min</span></div>' +
+        '<h2 id="popTitle">' + e.title + '</h2>' +
+        '<div class="gens">' + e.gens.map(gpill).join('') + '</div>' +
+      '</div></div>' +
+      '<div class="pop-body">' +
+        '<div class="pop-player glass" id="popPlayer"><div class="row">' +
+          '<button class="play-btn cat" id="popPlay" type="button" data-playing="false" aria-label="Play or pause this episode">' + ICON + '</button>' +
+          '<div class="wave" id="popWave" role="slider" tabindex="0" aria-label="Playback position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div></div>' +
+          '<div class="times mono"><span id="popCur">0:00</span><span>' + fmt(e.dur) + '</span></div>' +
+          '<p class="note">Demo player. No audio attached, runs at 30x speed.</p></div>' +
+        '<div class="actions"><button class="btn btn-cat" id="popPlay2" type="button"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>Play episode</button>' +
+          '<button class="btn btn-ghost" id="popShare" type="button" aria-expanded="false" aria-controls="sharePanel">' + icon('i-share') + 'Share</button></div>' +
+        '<div class="share-panel glass" id="sharePanel" hidden>' +
+          '<label class="mono muted" for="shareUrl">Link to this site</label>' +
+          '<div class="form-row"><input class="input" id="shareUrl" type="text" readonly value="' + url + '"><button class="btn btn-primary btn-sm" id="copyBtn" type="button">' + icon('i-copy') + 'Copy link</button></div>' +
+          '<div class="share-links">' + social.map(function (s) { return '<a class="btn btn-ghost btn-sm" href="' + s.u + '" target="_blank" rel="noopener">' + s.n + EXT + '</a>'; }).join('') + '</div>' +
+          '<p class="form-msg" id="copyMsg" role="status"></p></div>' +
+        '<div class="blk"><h3>Listen or watch on</h3><div class="actions">' + PLATFORMS.map(function (p) { return '<a class="btn btn-ghost btn-sm" href="' + p.u + '" target="_blank" rel="noopener">' + p.n + EXT + '</a>'; }).join('') + '</div>' +
+          '<p class="note">In this sample, each button opens the platform\'s home page.</p></div>' +
+        '<div class="pop-grid">' +
+          '<div class="pop-col">' +
+            '<div class="blk"><h3>About this episode</h3><p>' + e.about + '</p><p>' + e.summary + '</p></div>' +
+            '<div class="blk"><h3>Key takeaways</h3><ul class="ticks">' + e.take.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ul></div>' +
+            '<div class="blk"><h3>Chapters</h3><ul class="chapters">' + chapters.map(function (s, k) { return '<li><button type="button" data-chap="' + Math.round(e.dur * FRAC[k]) + '"><span class="mono">' + fmt(e.dur * FRAC[k]) + '</span><span>' + s + '</span></button></li>'; }).join('') + '</ul></div>' +
+          '</div>' +
+          '<div class="pop-col">' +
+            '<div class="blk"><h3>In this episode</h3><ul class="guest-list">' + e.guests.map(function (g) { return '<li class="guest-li" data-gen="' + g.g + '"><span class="avatar sm" aria-hidden="true">' + initials(g.n) + '</span><div><b>' + g.n + '</b><span class="muted">' + g.r + ' · ' + GEN[g.g].short + '</span></div></li>'; }).join('') + '</ul></div>' +
+            '<div class="blk"><h3>Topics</h3><ul class="topic-list">' + e.topics.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ul></div>' +
+            '<div class="blk"><h3>Show notes</h3><ul class="res-list">' + e.res.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ul></div>' +
+            '<div class="blk"><h3>Details</h3><dl class="det"><dt>Published</dt><dd>' + e.date + '</dd><dt>Length</dt><dd>' + fmt(e.dur) + '</dd><dt>Category</dt><dd>' + c.name + '</dd><dt>Generations</dt><dd>' + GEN[e.gens[0]].name + ' and ' + GEN[e.gens[1]].name + '</dd><dt>Format</dt><dd>Audio and video</dd></dl></div>' +
+            '<div class="blk"><h3>More like this</h3><div class="more">' + related(i).map(function (k) { var x = EP[k]; return '<button type="button" data-open="' + k + '" data-cat="' + x.cat + '"><span class="cover" aria-hidden="true"></span><span><b>' + x.title + '</b><span class="mono muted">EP ' + x.n + ' · ' + CATS[x.cat].name + '</span></span></button>'; }).join('') + '</div></div>' +
+          '</div>' +
+        '</div>' +
+      '</div></div>';
+  }
+  var modal = $('#modal'), sheet = $('#sheet'), pageEl = $('#page');
+  function openEp(i, opener) {
+    var wasOpen = popIdx > -1;
+    popIdx = i;
+    if (!wasOpen) { popOpener = opener || document.activeElement; }
+    sheet.innerHTML = popHTML(i);
+    sheet.scrollTop = 0;
+    popBars = buildBars($('#popWave'), i); popLast = -1;
+    modal.hidden = false;
+    root.classList.add('lock');
+    try { pageEl.inert = true; $('#miniWrap').inert = true; } catch (err) { /* inert is optional */ }
+    paint(); sync();
+    $('#popClose').focus();
+  }
+  function closeEp() {
+    if (popIdx < 0) { return; }
+    popIdx = -1;
+    modal.hidden = true;
+    root.classList.remove('lock');
+    try { pageEl.inert = false; $('#miniWrap').inert = false; } catch (err) { /* inert is optional */ }
+    sheet.innerHTML = '';
+    if (popOpener && document.contains(popOpener)) { popOpener.focus(); }
+    popOpener = null;
+  }
+  $('#popClose').addEventListener('click', closeEp);
+  modal.addEventListener('click', function (e) { if (e.target === modal) { closeEp(); } });
+  document.addEventListener('keydown', function (e) {
+    if (popIdx < 0) { return; }
+    if (e.key === 'Escape') { e.preventDefault(); closeEp(); return; }
+    if (e.key === 'Tab') {
+      var f = $$('a[href], button:not([disabled]), input, [tabindex="0"]', $('#frame')).filter(function (n) { return n.offsetParent !== null; });
+      if (!f.length) { return; }
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+  function copyLink() {
+    var input = $('#shareUrl'), msg = $('#copyMsg');
+    function fallback() { input.focus(); input.select(); msg.className = 'form-msg'; msg.textContent = 'Link selected. Copy it with your keyboard.'; }
+    function ok() { msg.className = 'form-msg ok'; msg.textContent = 'Link copied.'; }
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(input.value).then(ok, fallback); } else { fallback(); }
+    } catch (err) { fallback(); }
+  }
+  sheet.addEventListener('click', function (e) {
+    var b;
+    if ((b = e.target.closest('#popPlay, #popPlay2'))) { playEp(popIdx); return; }
+    if ((b = e.target.closest('#popShare'))) {
+      var p = $('#sharePanel'), open = p.hidden;
+      p.hidden = !open; b.setAttribute('aria-expanded', String(open));
+      if (open) { $('#shareUrl').focus(); }
+      return;
+    }
+    if ((b = e.target.closest('#copyBtn'))) { copyLink(); return; }
+    if ((b = e.target.closest('[data-chap]'))) {
+      var secs = +b.getAttribute('data-chap');
+      if (popIdx !== cur) { setEp(popIdx); }
+      t = secs; paint(); if (!playing) { play(); }
+      return;
+    }
+    if ((b = e.target.closest('[data-open]'))) { openEp(+b.getAttribute('data-open')); }
+  });
+
+  /* ---------- Page-wide clicks ---------- */
+  var pendingHL = null;
+  document.addEventListener('click', function (ev) {
+    if (ev.target.closest('#sheet')) { return; }
+    var b;
+    if ((b = ev.target.closest('[data-open]'))) { openEp(+b.getAttribute('data-open'), b); return; }
+    if ((b = ev.target.closest('[data-play]'))) { playEp(+b.getAttribute('data-play')); return; }
+    if ((b = ev.target.closest('[data-clear]'))) { setFilters('All', 'All'); return; }
+    if ((b = ev.target.closest('.tl-seg'))) {
+      var id = b.getAttribute('data-hl'); highlightGen(id);
+      var card = document.getElementById('gen-' + id);
+      if (card) { card.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); }
+      return;
+    }
+    if ((b = ev.target.closest('[data-go]'))) {
+      var view = b.getAttribute('data-go');
+      if (view === 'shows') { setFilters(b.getAttribute('data-fcat') || 'All', b.getAttribute('data-fgen') || 'All'); }
+      pendingHL = b.getAttribute('data-hl');
+      go(view);
+    }
+  });
+  $('#toTop').addEventListener('click', function () { window.scrollTo(0, 0); });
+
+  /* ---------- Views and routing ---------- */
+  var VIEWS = ['home', 'shows', 'generations', 'categories'];
+  function go(view) { if (location.hash === '#' + view) { route(); } else { location.hash = view; } }
+  function route() {
+    var h = location.hash.replace('#', '');
+    if (VIEWS.indexOf(h) < 0) { h = 'home'; }
+    closeEp();
+    $$('.view').forEach(function (v) { v.hidden = v.getAttribute('data-view') !== h; });
+    $$('#navLinks a').forEach(function (a) { if (a.getAttribute('data-view') === h) { a.setAttribute('aria-current', 'page'); } else { a.removeAttribute('aria-current'); } });
+    if (h === 'generations') { highlightGen(pendingHL); }
+    pendingHL = null;
+    if (h === 'shows') { renderShows(); }
+    window.scrollTo(0, 0);
+    sync();
+  }
+  window.addEventListener('hashchange', route);
+
+  /* ---------- Theme ---------- */
+  function effective() { return root.getAttribute('data-theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'); }
+  $('#themeBtn').addEventListener('click', function () {
+    root.setAttribute('data-theme', effective() === 'dark' ? 'light' : 'dark');
+    readColors(); if (reduce) { frame(); }
+  });
+
+  /* ---------- Newsletter (demo) ---------- */
+  $('#join').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var input = $('#email'), msg = $('#msg');
+    if (!input.value || !input.validity.valid) {
+      msg.className = 'form-msg err';
+      msg.textContent = 'Enter a valid email address, like name@example.com.';
+      return;
+    }
+    msg.className = 'form-msg ok';
+    msg.textContent = 'Thanks. This is a sample form, so nothing was sent.';
+    input.value = '';
+  });
+
+  /* ---------- Connection network (home hero) ---------- */
+  var cv = $('#net'), ctx = cv.getContext('2d'), hero = $('.hero');
+  var PAL_DARK = ['95,208,125', '212,154,102', '63,202,160', '82,170,240', '182,144,248', '232,178,74'];
+  var PAL_LIGHT = ['31,138,67', '143,84,36', '18,128,95', '31,111,189', '106,63,192', '168,98,11'];
+  var W = 0, H = 0, nodes = [], mouse = { x: -999, y: -999 }, netRGB = '168,222,180', accRGB = '240,180,60', pal = PAL_DARK, running = false, visible = true, fc = 0;
+  function readColors() {
+    var cs = getComputedStyle(root);
+    netRGB = cs.getPropertyValue('--net').trim() || netRGB;
+    accRGB = cs.getPropertyValue('--accent-rgb').trim() || accRGB;
+    pal = effective() === 'light' ? PAL_LIGHT : PAL_DARK;
+  }
+  function size() {
+    var r = cv.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = r.width; H = r.height;
+    if (!W || !H) { return; }
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var n = Math.round(Math.min(90, Math.max(28, W * H / 13000)));
+    nodes = [];
+    for (var i = 0; i < n; i++) {
+      nodes.push({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .3, vy: (Math.random() - .5) * .3, r: 1.3 + Math.random() * 1.8, c: i % 6 });
+    }
+    if (reduce) { frame(); }
+  }
+  function frame() {
+    ctx.clearRect(0, 0, W, H);
+    var L = 128, M = 170, i, j, a, b, dx, dy, d;
+    if (!reduce) {
+      for (i = 0; i < nodes.length; i++) {
+        a = nodes[i]; a.x += a.vx; a.y += a.vy;
+        if (a.x < 0 || a.x > W) { a.vx *= -1; }
+        if (a.y < 0 || a.y > H) { a.vy *= -1; }
+      }
+    }
+    ctx.lineWidth = 1;
+    for (i = 0; i < nodes.length; i++) {
+      a = nodes[i];
+      for (j = i + 1; j < nodes.length; j++) {
+        b = nodes[j]; dx = a.x - b.x; dy = a.y - b.y; d = Math.sqrt(dx * dx + dy * dy);
+        if (d < L) { ctx.strokeStyle = 'rgba(' + netRGB + ',' + ((1 - d / L) * .38).toFixed(3) + ')'; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+      }
+      dx = a.x - mouse.x; dy = a.y - mouse.y; d = Math.sqrt(dx * dx + dy * dy);
+      if (d < M) {
+        ctx.strokeStyle = 'rgba(' + accRGB + ',' + ((1 - d / M) * .75).toFixed(3) + ')';
+        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
+        ctx.fillStyle = 'rgba(' + accRGB + ',.95)';
+        ctx.beginPath(); ctx.arc(a.x, a.y, a.r + 1.4, 0, 6.283); ctx.fill();
+      } else {
+        ctx.fillStyle = 'rgba(' + pal[a.c] + ',.8)';
+        ctx.beginPath(); ctx.arc(a.x, a.y, a.r, 0, 6.283); ctx.fill();
+      }
+    }
+  }
+  function loop() {
+    if (!running) { return; }
+    if (visible && !document.hidden && !$('#view-home').hidden) { if (++fc % 90 === 0) { readColors(); } frame(); }
+    requestAnimationFrame(loop);
+  }
+  hero.addEventListener('pointermove', function (e) { var r = cv.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; });
+  hero.addEventListener('pointerleave', function () { mouse.x = -999; mouse.y = -999; });
+  if ('IntersectionObserver' in window) { new IntersectionObserver(function (en) { visible = en[0].isIntersecting; }).observe(hero); }
+  if ('ResizeObserver' in window) { new ResizeObserver(size).observe(hero); } else { window.addEventListener('resize', size); }
+
+  /* ---------- Boot ---------- */
+  renderGens(); renderCats(); renderShows();
+  heroBars = buildBars(wave, cur);
+  render(); readColors(); size();
+  route();
+  window.scrollTo(0, 0);
+  if (!reduce) { running = true; requestAnimationFrame(loop); }
+})();
+</script>
+
+</body></html>
