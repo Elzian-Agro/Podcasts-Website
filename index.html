@@ -438,6 +438,13 @@ h2.title { font-family: var(--display); font-weight: 700; font-size: clamp(1.9re
 .host { display: flex; align-items: center; gap: 18px; padding: 22px; min-width: 0; }
 .avatar { width: 72px; height: 72px; flex: none; border-radius: 50%; display: grid; place-items: center; font-family: var(--display); font-weight: 700; font-size: 1.5rem; color: #14110a; background: var(--g, var(--accent)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35); }
 .avatar.sm { width: 44px; height: 44px; font-size: 1rem; }
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}
 .host h3 { font-family: var(--display); font-size: 1.3rem; letter-spacing: -.01em; }
 .host p { color: var(--muted); font-size: .96rem; }
 
@@ -594,7 +601,7 @@ footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-t
         </a>
         <ul class="nav-links" id="navLinks">
           <li><a href="#home" data-view="home">Home</a></li>
-          <li><a href="#shows" data-view="shows">Shows</a></li>
+          <li><a href="#shows" data-view="shows">Episodes</a></li>
           <li><a href="#generations" data-view="generations">Generations</a></li>
           <li><a href="#categories" data-view="categories">Categories</a></li>
         </ul>
@@ -619,12 +626,12 @@ footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-t
                 <span class="w" style="--i:2">one</span>
                 <span class="w w-sig" style="--i:3">conversation.<svg viewBox="0 0 120 16" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M2 8 Q 12 0 22 8 T 42 8 T 62 8 T 82 8 T 102 8 T 118 8"/></svg></span>
               </h1>
-              <p class="lede rise" style="--d:700ms">A weekly podcast that pairs two generations to talk about the planet: environment, land, climate, ocean, agriculture and energy. Each guest brings one question for the other, and every technical term is explained before we use it twice.</p>
+              <p class="lede rise" style="--d:700ms">Intergenerational Podcast is a bi-weekly show that brings people of different generations into conversation about the future of our planet. Each episode explores the environment, land restoration, climate action, the ocean, agriculture, and the transition to sustainable energy, drawing on the wisdom of elders and the ideas of young people.</p>
               <div class="cta rise" style="--d:820ms">
                 <button class="btn btn-primary" id="heroPlay" type="button"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>Play latest episode</button>
-                <a class="btn btn-ghost" href="#shows">Browse shows</a>
+                <a class="btn btn-ghost" href="#shows">Browse episodes</a>
               </div>
-              <div class="hero-meta mono rise" style="--d:940ms"><span>Weekly, Tuesdays</span><span>12 episodes</span><span>5 generations</span><span>6 categories</span></div>
+              <div class="hero-meta mono rise" style="--d:940ms"><span>By Weekly, Tuesdays</span><span>12 episodes</span><span>5 generations</span><span>6 categories</span></div>
             </div>
 
             <aside class="player glass rise" id="player" style="--d:500ms" aria-label="Now playing">
@@ -644,15 +651,14 @@ footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-t
                 <button class="icon-btn" id="pNext" type="button" aria-label="Next episode"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-next"/></svg></button>
               </div>
               <button class="btn btn-ghost btn-sm player-link" id="pDetails" type="button">Episode page, share and listen links</button>
-              <p class="player-note mono">Demo player. No audio attached, runs at 30x speed.</p>
             </aside>
           </div>
         </section>
 
         <div class="ticker glass" aria-label="Topics we cover">
           <div class="track">
-            <div class="group mono"><span>Returnable bottles</span><span>School gardens</span><span>Soil under concrete</span><span>Vacant lots</span><span>Rain diaries</span><span>Climate worry</span><span>Reef restoration</span><span>Fishers' logbooks</span><span>Farm handovers</span><span>Field sensors</span><span>Solar roofs</span><span>Home batteries</span></div>
-            <div class="group mono" aria-hidden="true"><span>Returnable bottles</span><span>School gardens</span><span>Soil under concrete</span><span>Vacant lots</span><span>Rain diaries</span><span>Climate worry</span><span>Reef restoration</span><span>Fishers' logbooks</span><span>Farm handovers</span><span>Field sensors</span><span>Solar roofs</span><span>Home batteries</span></div>
+            <div class="group mono"><span>Environmental Conservation</span><span>Land Restoration</span><span>Climate Action and Adaptation</span><span>Ocean Conservation</span><span>Regenerative Agriculture</span><span>Renewable Energy Transition</span></div>
+            <div class="group mono" aria-hidden="true"><span>Environmental Conservation</span><span>Land Restoration</span><span>Climate Action and Adaptation</span><span>Ocean Conservation</span><span>Regenerative Agriculture</span><span>Renewable Energy Transition</span></div>
           </div>
         </div>
 
@@ -663,7 +669,7 @@ footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-t
               <h2 class="title" id="latest-h">Fresh conversations</h2>
               <p class="muted">Open any episode for the full page: notes, chapters, guests, play, share and where to listen.</p>
             </div>
-            <button class="btn btn-ghost" type="button" data-go="shows">See all shows</button>
+            <button class="btn btn-ghost" type="button" data-go="shows">See all episodes</button>
           </div>
           <div class="grid" id="homeGrid"></div>
         </section>
@@ -702,8 +708,8 @@ footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-t
             <div class="layer">
               <div class="depth mono"><b>Part one</b><span>0 to 5 min</span></div>
               <div class="layer-body l1 glass">
-                <div class="layer-head"><h3>The Question</h3><span class="mono">5 min</span></div>
-                <p>Each guest brings one question for the other generation. They ask it cold, with no preparation from the other side.</p>
+                <div class="layer-head"><h3>The Question(s)</h3><span class="mono">5 min</span></div>
+                <p>Each guest bring questions for the other generation. They ask it straightforward, with no preparation from the other side.</p>
               </div>
             </div>
             <div class="layer">
@@ -728,16 +734,20 @@ footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-t
             <div class="section-head">
               <span class="mono">Your hosts</span>
               <h2 class="title" id="hosts-h">Two hosts, twenty years apart</h2>
-              <p class="muted">Mira has watched landscapes change for three decades. Dev builds the tools that measure them. They disagree often, and usually politely.</p>
+              <p class="muted">Lilan has watched landscapes change for two decades. Sachini builds the tools that measure them. They disagree often, and usually politely.</p>
             </div>
             <div class="hosts">
-              <article class="host glass" data-gen="genx">
-                <div class="avatar" aria-hidden="true">MO</div>
-                <div><h3>Mira Okafor</h3><p class="mono muted">Environmental scientist · Gen X</p><p>Spends her weekends in the field and her weekdays explaining why a handful of dirt is a city.</p></div>
-              </article>
               <article class="host glass" data-gen="genz">
-                <div class="avatar" aria-hidden="true">DR</div>
-                <div><h3>Dev Raman</h3><p class="mono muted">Climate-tech engineer · Gen Z</p><p>Builds low-cost sensors and keeps asking whether the data would change a single decision.</p></div>
+                <div class="avatar" aria-hidden="true">                
+                      <img src="img/Lilan.png" alt="Lilan Dayananda">     
+                </div>
+                <div><h3>Lilan Dayananda</h3><p class="mono muted">Social-Tech Entrepreneur · Gen Z</p><p>Driven by a deep commitment to meaningful impact, Lilan continues to advance intergenerational aspect for sustainable futures.</p></div>
+              </article>
+              <article class="host glass" data-gen="millennials">
+                <div class="avatar" aria-hidden="true">                
+                      <img src="img/Sachini.png" alt="Sachini Nimansha">     
+                </div>
+                <div><h3>Sachini Nimansha</h3><p class="mono muted">Forestry & Agricultural Researcher · Millennial</p><p>Builds low-cost sensors and keeps asking whether the data would change a single decision.</p></div>
               </article>
             </div>
           </div>
@@ -751,9 +761,7 @@ footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-t
               <p class="muted">Follow on your player of choice, or join the list for one short email after each episode.</p>
               <div class="platforms">
                 <a class="btn btn-ghost" href="https://www.podbean.com" target="_blank" rel="noopener">Podbean</a>
-                <a class="btn btn-ghost" href="https://open.spotify.com" target="_blank" rel="noopener">Spotify</a>
-                <a class="btn btn-ghost" href="https://podcasts.apple.com" target="_blank" rel="noopener">Apple Podcasts</a>
-                <a class="btn btn-ghost" href="https://www.youtube.com" target="_blank" rel="noopener">YouTube</a>
+                <!-- <a class="btn btn-ghost" href="https://www.youtube.com" target="_blank" rel="noopener">YouTube</a> -->
               </div>
             </div>
             <form class="form" id="join" novalidate>
@@ -772,8 +780,8 @@ footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-t
       <div class="view" id="view-shows" data-view="shows" hidden>
         <section class="section first" aria-labelledby="shows-h">
           <div class="section-head">
-            <span class="mono">Shows</span>
-            <h2 class="title" id="shows-h">All episodes</h2>
+            <span class="mono">Episodes</span>
+            <h2 class="title" id="shows-h">Explore all conversations</h2>
             <p class="muted">Filter by category or by generation, or search for a guest or topic. Open an episode for its own page.</p>
           </div>
           <div class="filters">
@@ -828,7 +836,7 @@ footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-t
     </main>
 
     <footer>
-      <span>Intergenerational Podcast. This is a sample site: every name, episode and number is a placeholder.</span>
+      <span>Intergenerational Podcasts @ All Rights Reserved.</span>
       <button class="linklike" id="toTop" type="button">Back to top</button>
     </footer>
   </div>
@@ -1145,38 +1153,98 @@ footer { margin-top: clamp(56px, 8vw, 96px); padding-block: 28px 120px; border-t
         '<div class="pop-intro">' +
           '<div class="pop-meta"><span class="tag"><i></i>' + c.name + '</span><span class="mono">EP ' + e.n + '</span><span class="mono">' + e.date + '</span><span class="mono">' + Math.round(e.dur / 60) + ' min</span></div>' +
           '<h2 id="popTitle">' + e.title + '</h2>' +
-          '<p class="pop-desc">' + e.description + '</p>' +
+          '<p class="pop-desc">' +
+              (e.description || '').replace(/\n/g, '<br>') +
+          '</p>' +
           '<div class="gens">' + e.gens.map(gpill).join('') + '</div>' +
         '</div>' +
       '</div>' +
       '<div class="pop-body">' +
         '<div class="pop-player glass" id="popPlayer"><div class="row">' +
-          '<button class="play-btn cat" id="popPlay" type="button" data-playing="false" aria-label="Play or pause this episode">' + ICON + '</button>' +
-          '<div class="wave" id="popWave" role="slider" tabindex="0" aria-label="Playback position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div></div>' +
-          '<div class="times mono"><span id="popCur">0:00</span><span>' + fmt(e.dur) + '</span></div>' +
-          '<p class="note">' + (e.audio ? 'Playing the episode audio.' : 'Demo player. No audio attached, runs at 30x speed.') + '</p></div>' +
-        '<div class="actions"><button class="btn btn-cat" id="popPlay2" type="button"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>Play episode</button>' +
-          '<button class="btn btn-ghost" id="popShare" type="button" aria-expanded="false" aria-controls="sharePanel">' + icon('i-share') + 'Share</button></div>' +
-        '<div class="share-panel glass" id="sharePanel" hidden>' +
-          '<label class="mono muted" for="shareUrl">Link to this site</label>' +
-          '<div class="form-row"><input class="input" id="shareUrl" type="text" readonly value="' + url + '"><button class="btn btn-primary btn-sm" id="copyBtn" type="button">' + icon('i-copy') + 'Copy link</button></div>' +
-          '<div class="share-links">' + social.map(function (s) { return '<a class="btn btn-ghost btn-sm" href="' + s.u + '" target="_blank" rel="noopener">' + s.n + EXT + '</a>'; }).join('') + '</div>' +
-          '<p class="form-msg" id="copyMsg" role="status"></p></div>' +
-        '<div class="blk"><h3>Listen</h3><div class="actions">' + PLATFORMS.map(function (p) { return '<a class="btn btn-ghost btn-sm" href="' + p.u + '" target="_blank" rel="noopener">' + p.n + EXT + '</a>'; }).join('') + '</div></div>' +
-        '<div class="pop-grid">' +
-          '<div class="pop-col">' +
-            '<div class="blk"><h3>About this episode</h3><p>' + e.about + '</p></div>' +
-            '<div class="blk"><h3>Key takeaways</h3><ul class="ticks">' + e.take.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ul></div>' +
-            '<div class="blk"><h3>Chapters</h3><ul class="chapters">' + chapters.map(function (c) { return '<li><button type="button" data-chap="' + c.s + '"><span class="mono">' + fmt(c.s) + '</span><span>' + c.title + '</span></button></li>'; }).join('') + '</ul></div>' +
-          '</div>' +
-          '<div class="pop-col">' +
-            '<div class="blk"><h3>In this episode</h3><ul class="guest-list">' + e.guests.map(function (g) { return '<li class="guest-li" data-gen="' + g.g + '"><span class="avatar sm" aria-hidden="true">' + initials(g.n) + '</span><div><b>' + g.n + (g.t ? ' · ' + g.t : '') + '</b><span class="muted">' + g.r + '</span></div></li>'; }).join('') + '</ul></div>' +
-            '<div class="blk"><h3>Tags</h3><ul class="topic-list">' + e.tags.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ul></div>' +
-            '<div class="blk"><h3>Details</h3><dl class="det"><dt>Published</dt><dd>' + e.date + '</dd><dt>Length</dt><dd>' + fmt(e.dur) + '</dd><dt>Category</dt><dd>' + c.name + '</dd><dt>Generations</dt><dd>' + GEN[e.gens[0]].name + ' and ' + GEN[e.gens[1]].name + '</dd><dt>Format</dt><dd>Audio</dd></dl></div>' +
-            '<div class="blk"><h3>More like this</h3><div class="more">' + related(i).map(function (k) { var x = EP[k]; return '<button type="button" data-open="' + k + '" data-cat="' + x.cat + '"><span class="cover" aria-hidden="true"></span><span><b>' + x.title + '</b><span class="mono muted">EP ' + x.n + ' · ' + CATS[x.cat].name + '</span></span></button>'; }).join('') + '</div></div>' +
-          '</div>' +
+            '<button class="play-btn cat" id="popPlay" type="button" data-playing="false" aria-label="Play or pause this episode">' + ICON + '</button>' +
+            '<div class="wave" id="popWave" role="slider" tabindex="0" aria-label="Playback position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div></div>' +
+            '<div class="times mono"><span id="popCur">0:00</span><span>' + fmt(e.dur) + '</span></div>' +
+            '<p class="note">' + (e.audio ? 'Playing the episode audio.' : 'Demo player. No audio attached, runs at 30x speed.') + '</p></div>' +
+
+        '<div class="actions">' +
+            '<button class="btn btn-cat" id="popPlay2" type="button"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>Play episode</button>' +
+            '<button class="btn btn-ghost" id="popShare" type="button" aria-expanded="false" aria-controls="sharePanel">' + icon('i-share') + 'Share</button>' +
         '</div>' +
-      '</div></div>';
+
+        '<div class="share-panel glass" id="sharePanel" hidden>' +
+            '<label class="mono muted" for="shareUrl">Link to this site</label>' +
+            '<div class="form-row"><input class="input" id="shareUrl" type="text" readonly value="' + url + '"><button class="btn btn-primary btn-sm" id="copyBtn" type="button">' + icon('i-copy') + 'Copy link</button></div>' +
+            '<div class="share-links">' + social.map(function (s) {
+                return '<a class="btn btn-ghost btn-sm" href="' + s.u + '" target="_blank" rel="noopener">' + s.n + EXT + '</a>';
+            }).join('') + '</div>' +
+            '<p class="form-msg" id="copyMsg" role="status"></p>' +
+        '</div>' +
+
+        // Episode-specific listening platforms
+        '<div class="blk"><h3>Listen</h3><div class="actions">' +
+
+            Object.entries(e.platforms || {}).map(function (p) {
+
+                var names = {
+                    podbean: 'Podbean',
+                    spotify: 'Spotify',
+                    apple: 'Apple Podcasts',
+                    youtube: 'YouTube',
+                    amazon: 'Amazon Music',
+                    google: 'Google Podcasts'
+                };
+
+                return p[1]
+                    ? '<a class="btn btn-ghost btn-sm" href="' + p[1] + '" target="_blank" rel="noopener">' +
+                        (names[p[0]] || p[0]) + EXT +
+                      '</a>'
+                    : '';
+
+            }).join('') +
+
+        '</div></div>' +
+
+        '<div class="pop-grid">' +
+            '<div class="pop-col">' +
+                '<div class="blk"><h3>About this episode</h3><p>' + e.about + '</p></div>' +
+                '<div class="blk"><h3>Key takeaways</h3><ul class="ticks">' +
+                    e.take.map(function (s) { return '<li>' + s + '</li>'; }).join('') +
+                '</ul></div>' +
+                '<div class="blk"><h3>Chapters</h3><ul class="chapters">' +
+                    chapters.map(function (c) {
+                        return '<li><button type="button" data-chap="' + c.s + '"><span class="mono">' + fmt(c.s) + '</span><span>' + c.title + '</span></button></li>';
+                    }).join('') +
+                '</ul></div>' +
+            '</div>' +
+
+            '<div class="pop-col">' +
+                '<div class="blk"><h3>In this episode</h3><ul class="guest-list">' +
+                    e.guests.map(function (g) {
+                        return '<li class="guest-li" data-gen="' + g.g + '"><span class="avatar sm" aria-hidden="true">' + initials(g.n) + '</span><div><b>' + g.n + (g.t ? ' · ' + g.t : '') + '</b><span class="muted">' + g.r + '</span></div></li>';
+                    }).join('') +
+                '</ul></div>' +
+
+                '<div class="blk"><h3>Tags</h3><ul class="topic-list">' +
+                    e.tags.map(function (s) { return '<li>' + s + '</li>'; }).join('') +
+                '</ul></div>' +
+
+                '<div class="blk"><h3>Details</h3><dl class="det">' +
+                    '<dt>Published</dt><dd>' + e.date + '</dd>' +
+                    '<dt>Length</dt><dd>' + fmt(e.dur) + '</dd>' +
+                    '<dt>Category</dt><dd>' + c.name + '</dd>' +
+                    '<dt>Generations</dt><dd>' + GEN[e.gens[0]].name + ' and ' + GEN[e.gens[1]].name + '</dd>' +
+                    '<dt>Format</dt><dd>Audio</dd>' +
+                '</dl></div>' +
+
+                '<div class="blk"><h3>More like this</h3><div class="more">' +
+                    related(i).map(function (k) {
+                        var x = EP[k];
+                        return '<button type="button" data-open="' + k + '" data-cat="' + x.cat + '"><span class="cover" aria-hidden="true"></span><span><b>' + x.title + '</b><span class="mono muted">EP ' + x.n + ' · ' + CATS[x.cat].name + '</span></span></button>';
+                    }).join('') +
+                '</div></div>' +
+            '</div>' +
+        '</div>' +
+    '</div></div>';
   }
   var modal = $('#modal'), sheet = $('#sheet'), pageEl = $('#page');
   function openEp(i, opener) {
