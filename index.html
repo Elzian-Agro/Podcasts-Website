@@ -39,7 +39,7 @@
         </a>
         <ul class="nav-links" id="navLinks">
           <li><a href="#home" data-view="home">Home</a></li>
-          <li><a href="#shows" data-view="shows">Episodes</a></li>
+          <li><a href="#episodes" data-view="episodes">Episodes</a></li>
           <li><a href="#generations" data-view="generations">Generations</a></li>
           <li><a href="#categories" data-view="categories">Categories</a></li>
         </ul>
@@ -67,7 +67,7 @@
               <p class="lede rise" style="--d:700ms">Intergenerational Podcast is a bi-weekly show that brings people of different generations into conversation about the future of our planet. Each episode explores the environment, land restoration, climate action, the ocean, agriculture, and the transition to sustainable energy, drawing on the wisdom of elders and the ideas of young people.</p>
               <div class="cta rise" style="--d:820ms">
                 <button class="btn btn-primary" id="heroPlay" type="button"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>Play latest episode</button>
-                <a class="btn btn-ghost" href="#shows">Browse episodes</a>
+                <a class="btn btn-ghost" href="#episodes">Browse episodes</a>
               </div>
               <div class="hero-meta mono rise" style="--d:940ms"><span>By Weekly, Tuesdays</span><span>12 episodes</span><span>5 generations</span><span>6 categories</span></div>
             </div>
@@ -93,7 +93,7 @@
               <h2 class="title" id="latest-h">Fresh conversations</h2>
               <p class="muted">Open any episode for the full page: notes, chapters, guests, play, share and where to listen.</p>
             </div>
-            <button class="btn btn-ghost" type="button" data-go="shows">See all episodes</button>
+            <button class="btn btn-ghost" type="button" data-go="episodes">See all episodes</button>
           </div>
           <div class="grid" id="homeGrid"></div>
         </section>
@@ -200,12 +200,12 @@
         </section>
       </div>
 
-      <!-- SHOWS -->
-      <div class="view" id="view-shows" data-view="shows" hidden>
-        <section class="section first" aria-labelledby="shows-h">
+      <!-- episodes -->
+      <div class="view" id="view-episodes" data-view="episodes" hidden>
+        <section class="section first" aria-labelledby="episodes-h">
           <div class="section-head">
             <span class="mono">Episodes</span>
-            <h2 class="title" id="shows-h">Explore all conversations</h2>
+            <h2 class="title" id="episodes-h">Explore all conversations</h2>
             <p class="muted">Filter by category or by generation, or search for a guest or topic. Open an episode for its own page.</p>
           </div>
           <div class="filters">
@@ -336,10 +336,10 @@
   }).join('');
   $('#homeCats').innerHTML = CAT_ORDER.map(function (k) {
     var n = epCount(function (e) { return e.cat === k; });
-    return '<button class="cat-tile" type="button" data-cat="' + k + '" data-go="shows" data-fcat="' + k + '"><span class="cat-icon">' + icon(CATS[k].icon) + '</span><b>' + CATS[k].name + '</b><span class="muted">' + plural(n, 'episode') + '</span></button>';
+    return '<button class="cat-tile" type="button" data-cat="' + k + '" data-go="episodes" data-fcat="' + k + '"><span class="cat-icon">' + icon(CATS[k].icon) + '</span><b>' + CATS[k].name + '</b><span class="muted">' + plural(n, 'episode') + '</span></button>';
   }).join('');
 
-  /* ---------- Shows ---------- */
+  /* ---------- episodes ---------- */
   var catChips = $('#catChips'), genChips = $('#genChips');
   catChips.innerHTML = '<button class="chip" type="button" aria-pressed="true" data-fcat="All">All</button>' +
     CAT_ORDER.map(function (k) { return '<button class="chip" type="button" aria-pressed="false" data-cat="' + k + '" data-fcat="' + k + '">' + CATS[k].name + '</button>'; }).join('');
@@ -394,7 +394,7 @@
         '<div class="stat mono"><span>Born <b>' + g.born + '</b></span><span>Age in 2026 <b>' + g.ages + '</b></span></div>' +
         '<p class="muted">' + g.desc + '</p>' +
         '<div><p class="mono muted" style="margin-bottom:8px">Shaped by</p><ul class="shaped">' + g.shaped.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ul></div>' +
-        '<div class="gcard-foot"><span class="muted">' + plural(n, 'episode') + ' on the podcast</span><button class="btn btn-ghost btn-sm" type="button" data-go="shows" data-fgen="' + g.id + '">See episodes</button></div></article>';
+        '<div class="gcard-foot"><span class="muted">' + plural(n, 'episode') + ' on the podcast</span><button class="btn btn-ghost btn-sm" type="button" data-go="episodes" data-fgen="' + g.id + '">See episodes</button></div></article>';
     }).join('');
   }
   function highlightGen(id) {
@@ -414,7 +414,7 @@
         '<p class="muted">' + c.desc + '</p>' +
         '<ul class="topic-list">' + c.tags.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ul>' +
         '<div class="gens">' + gset.map(gpill).join('') + '</div>' +
-        '<div class="cat-foot"><span class="cat-meta">' + plural(list.length, 'episode') + '</span><button class="btn btn-cat btn-sm" type="button" data-go="shows" data-fcat="' + k + '">View ' + c.name + ' episodes</button></div></article>';
+        '<div class="cat-foot"><span class="cat-meta">' + plural(list.length, 'episode') + '</span><button class="btn btn-cat btn-sm" type="button" data-go="episodes" data-fcat="' + k + '">View ' + c.name + ' episodes</button></div></article>';
     }).join('');
   }
 
@@ -540,7 +540,7 @@
     EP.forEach(function (x, k) { if (k !== i && out.indexOf(k) < 0 && x.gens.some(function (g) { return e.gens.indexOf(g) > -1; })) { out.push(k); } });
     return out.slice(0, 3);
   }
-  function shareURL() { return location.href.split('#')[0] + '#shows'; }
+  function shareURL() { return location.href.split('#')[0] + '#episodes'; }
   function popHTML(i) {
     var e = EP[i], c = CATS[e.cat];
     var chapters = chapList(e);
@@ -736,7 +736,7 @@
     }
     if ((b = ev.target.closest('[data-go]'))) {
       var view = b.getAttribute('data-go');
-      if (view === 'shows') { setFilters(b.getAttribute('data-fcat') || 'All', b.getAttribute('data-fgen') || 'All'); }
+      if (view === 'episodes') { setFilters(b.getAttribute('data-fcat') || 'All', b.getAttribute('data-fgen') || 'All'); }
       pendingHL = b.getAttribute('data-hl');
       go(view);
     }
@@ -744,7 +744,7 @@
   $('#toTop').addEventListener('click', function () { window.scrollTo(0, 0); });
 
   /* ---------- Views and routing ---------- */
-  var VIEWS = ['home', 'shows', 'generations', 'categories'];
+  var VIEWS = ['home', 'episodes', 'generations', 'categories'];
   function go(view) { if (location.hash === '#' + view) { route(); } else { location.hash = view; } }
   function route() {
     var h = location.hash.replace('#', '');
@@ -754,7 +754,7 @@
     $$('#navLinks a').forEach(function (a) { if (a.getAttribute('data-view') === h) { a.setAttribute('aria-current', 'page'); } else { a.removeAttribute('aria-current'); } });
     if (h === 'generations') { highlightGen(pendingHL); }
     pendingHL = null;
-    if (h === 'shows') { renderShows(); }
+    if (h === 'episodes') { renderShows(); }
     window.scrollTo(0, 0);
     sync();
   }
