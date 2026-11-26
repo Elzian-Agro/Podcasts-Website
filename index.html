@@ -71,24 +71,11 @@
               <div class="hero-meta mono rise" style="--d:940ms"><span>By Weekly, Tuesdays</span><span>12 episodes</span><span>5 generations</span><span>6 categories</span></div>
             </div>
 
-            <aside class="player glass rise" id="player" style="--d:500ms" aria-label="Now playing">
-              <div class="player-top">
-                <div class="cover lg" id="pCover" aria-hidden="true"></div>
-                <div>
-                  <p class="mono muted" id="pEp"></p>
-                  <h2 id="pTitle"></h2>
-                </div>
-              </div>
-              <p class="guest" id="pGuest"></p>
-              <div class="wave" id="wave" role="slider" tabindex="0" aria-label="Playback position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
-              <div class="times mono"><span id="pCur">0:00</span><span id="pTot">0:00</span></div>
-              <div class="controls">
-                <button class="icon-btn" id="pPrev" type="button" aria-label="Previous episode"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-prev"/></svg></button>
-                <button class="play-btn cat" id="pPlay" type="button" data-playing="false" aria-label="Play or pause"><svg class="ic ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="ic ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>
-                <button class="icon-btn" id="pNext" type="button" aria-label="Next episode"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-next"/></svg></button>
-              </div>
-              <button class="btn btn-ghost btn-sm player-link" id="pDetails" type="button">Episode page, share and listen links</button>
-            </aside>
+            <!-- Hero image (replaces the old "Now playing" player card).
+                 Change the src and alt below to your own image. -->
+            <figure class="hero-image glass rise" style="--d:500ms">
+              <img src="img/hero.jpg" alt="Guests from different generations talking together" loading="eager">
+            </figure>
           </div>
         </section>
 
@@ -175,14 +162,14 @@
             </div>
             <div class="hosts">
               <article class="host glass" data-gen="genz">
-                <div class="avatar" aria-hidden="true">                
-                      <img src="img/Lilan.png" alt="Lilan Dayananda">     
+                <div class="avatar" aria-hidden="true">
+                      <img src="img/Lilan.png" alt="Lilan Dayananda">
                 </div>
                 <div><h3>Lilan Dayananda</h3><p class="mono muted">Social-Tech Entrepreneur · Gen Z</p><p>Driven by a deep commitment to meaningful impact, Lilan continues to advance intergenerational aspect for sustainable futures.</p></div>
               </article>
               <article class="host glass" data-gen="millennials">
-                <div class="avatar" aria-hidden="true">                
-                      <img src="img/Sachini.png" alt="Sachini Nimansha">     
+                <div class="avatar" aria-hidden="true">
+                      <img src="img/Sachini.png" alt="Sachini Nimansha">
                 </div>
                 <div><h3>Sachini Nimansha</h3><p class="mono muted">Forestry & Agricultural Researcher · Millennial</p><p>Builds low-cost sensors and keeps asking whether the data would change a single decision.</p></div>
               </article>
@@ -431,9 +418,8 @@
     }).join('');
   }
 
-  /* ---------- Player (hero, mini and popup share one clock) ---------- */
-  var heroBars = [], heroLast = -1, popBars = [], popLast = -1;
-  var wave = $('#wave');
+  /* ---------- Player (mini player and episode popup share one clock) ---------- */
+  var popBars = [], popLast = -1;
   function buildBars(el, ep) {
     var r = rng(EP[ep].n * 97 + 13), out = [];
     el.innerHTML = '';
@@ -454,10 +440,7 @@
   }
   function paint() {
     var d = EP[cur].dur;
-    heroLast = paintBars(heroBars, heroLast, t / d);
-    $('#pCur').textContent = fmt(t);
     $('#mFill').style.width = (t / d * 100) + '%';
-    wave.setAttribute('aria-valuenow', Math.round(t / d * 100));
     if (popIdx > -1) {
       var on = popIdx === cur;
       popLast = paintBars(popBars, popLast, on ? t / d : 0);
@@ -466,7 +449,6 @@
     }
   }
   function sync() {
-    $('#player').classList.toggle('playing', playing);
     $$('[data-playing]').forEach(function (b) {
       var own = b.getAttribute('data-play');
       var on = playing;
@@ -479,12 +461,7 @@
   }
   function render() {
     var e = EP[cur];
-    $('#player').setAttribute('data-cat', e.cat);
     $('#mini').setAttribute('data-cat', e.cat);
-    $('#pEp').textContent = 'EP ' + e.n + ' · ' + CATS[e.cat].name;
-    $('#pTitle').textContent = e.title;
-    $('#pGuest').textContent = 'with ' + e.guests[0].n.replace(/\s*\(.*\)/, '') + ' and ' + e.guests[1].n.replace(/\s*\(.*\)/, '') + ' · ' + GEN[e.gens[0]].short + ' meets ' + GEN[e.gens[1]].short;
-    $('#pTot').textContent = fmt(e.dur);
     $('#mTitle').textContent = 'EP ' + e.n + ' · ' + e.title;
     paint(); sync();
   }
@@ -507,17 +484,13 @@
     cur = (i + EP.length) % EP.length; t = 0;
     au.pause();
     if (EP[cur].audio) { au.src = EP[cur].audio; }
-    heroBars = buildBars(wave, cur); heroLast = -1; render();
+    render();
   }
   function toggle() { if (playing) { pause(); } else { if (t >= EP[cur].dur) { t = 0; } play(); } }
   function playEp(i) { if (i === cur) { toggle(); } else { setEp(i); play(); } }
 
-  $('#pPlay').addEventListener('click', toggle);
   $('#mPlay').addEventListener('click', toggle);
-  $('#pPrev').addEventListener('click', function () { var w = playing; setEp(cur - 1); if (w) { play(); } });
-  $('#pNext').addEventListener('click', function () { var w = playing; setEp(cur + 1); if (w) { play(); } });
   $('#heroPlay').addEventListener('click', function () { if (cur !== 0) { setEp(0); } if (!playing) { play(); } });
-  $('#pDetails').addEventListener('click', function (e) { openEp(cur, e.currentTarget); });
   $('#mTitle').addEventListener('click', function (e) { openEp(cur, e.currentTarget); });
   $('#navListen').addEventListener('click', function (e) { openEp(0, e.currentTarget); });
 
