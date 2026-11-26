@@ -114,7 +114,7 @@ window.SITE = {
         podbean: 'https://interpodcasts.podbean.com/e/rooted-in-indigenous-wisdom-restoring-our-land-reconnecting-with-nature-and-cultivating-equality/',
       },
       img: 'img/Lewis x Lilan.png',
-      guests: [{ n: 'Lilan Dayananda', g: 'genz', r: 'CEO of Elzian Agro', t: 'Host' }, { n: 'Lewis Cardinalk', g: 'boomers', r: '', t: 'Guest Speaker' }],
+      guests: [{ n: 'Lilan Dayananda', g: 'genz', r: 'CEO of Elzian Agro', t: 'Host' }, { n: 'Lewis Cardinalk', g: 'boomers', r: 'Prominent Woodland Cree Communicator', t: 'Guest Speaker' }],
       description: 'What can Indigenous wisdom teach us about restoring our relationship with the land and building a more sustainable and equitable future?\n\n In this episode of Intergenerational Podcasts, host <a href="https://lilan.elzian.com/" target="_blank" rel="noopener">Lilan Dayananda</a> welcomes Lewis Cardinal, a prominent Woodland Cree communicator and Indigenous leader, for an inspiring conversation about Indigenous approaches to agriculture, land restoration, biodiversity, and social equality.\n\nDiscover the wisdom behind the Three Sisters method, a traditional companion-planting practice that demonstrates the power of agricultural diversity and ecological cooperation. The discussion explores how Indigenous knowledge and practices can help address land degradation and biodiversity loss resulting from industrialisation and human activities.\n\nThe conversation also highlights women\'s contributions to agriculture and land stewardship, digital inclusion, Indigenous astronomy, and the importance of reconnecting modern society with nature-based sustainable practices.\n\nJoin us to discover how traditional knowledge, cultural wisdom, and intergenerational collaboration can help restore ecological balance and create a more inclusive and sustainable future.',
       summary: 'Explore how Indigenous wisdom can inspire sustainable agriculture, restore degraded land, protect biodiversity, and strengthen our connection with nature. Discover how traditional knowledge, cultural practices, and intergenerational collaboration can create a more inclusive and resilient future.',
       about: "In this episode, Lilan Dayananda sits down with Lewis Cardinal, a prominent Woodland Cree communicator and Indigenous leader, to explore the importance of Indigenous knowledge in shaping a sustainable future. From the Three Sisters agricultural method to land restoration, biodiversity conservation, and women’s contributions to agriculture, the conversation highlights how traditional wisdom can guide modern sustainability efforts. Discover the connections between Indigenous astronomy, digital inclusion, cultural preservation, and nature-based solutions, while exploring how different generations can work together to build a more equitable relationship with the land and our environment.",
@@ -134,7 +134,7 @@ window.SITE = {
         { t: '19:30', title: 'How Can Youth Reconnect with the Natural Environment?' },
         { t: '21:30', title: 'Building a Sustainable Future Through Indigenous Wisdom.' }
       ],
-      tags: ['#agriculture', '#climate', '#SDGs', '#fear_management'],
+      tags: ['#indigenous', '#land_restoration', '#agriculture', '#nature'],
     },
     { n: 2, cat: 'agriculture', gens: ['genz', 'millennials'], title: 'Beyond Fear: Cultivating Courage for a Sustainable Agricultural Future', date: '26 November 2026', dur: 2220,
       audio: 'audio/episode-02.mp3',
