@@ -374,6 +374,18 @@ h2.title { font-family: var(--display); font-weight: 700; font-size: clamp(1.9re
 .card-foot { margin-top: auto; padding-top: 6px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .card-play { position: relative; z-index: 2; }
 
+.card-guests { display: flex; flex-wrap: wrap; gap: 8px 14px; margin: 10px 0 4px; }
+.cg { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; }
+.face {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: inline-grid; place-items: center; flex: none;
+  overflow: hidden; font-size: 12px; font-weight: 600;
+  background: rgba(127,127,127,.2);
+  border: 2px solid var(--gen-color, currentColor);
+}
+.face img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.face.lg { width: 44px; height: 44px; }
+
 /* Generation strip and timeline */
 .gen-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); gap: 14px; }
 .gcard-mini { all: unset; box-sizing: border-box; cursor: pointer; padding: 18px; display: flex; flex-direction: column; gap: 6px; min-width: 0; border-radius: 20px; background: var(--glass); border: 1px solid var(--glass-border); transition: transform .25s ease, border-color .25s ease; }
