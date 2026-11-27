@@ -569,11 +569,13 @@
     EP.forEach(function (x, k) { if (k !== i && out.indexOf(k) < 0 && x.gens.some(function (g) { return e.gens.indexOf(g) > -1; })) { out.push(k); } });
     return out.slice(0, 3);
   }
-  function shareURL() { return location.href.split('#')[0] + '#episodes'; }
+  function shareURL(e) {
+    return e.share || (location.href.split('#')[0] + '#episodes');
+  }
   function popHTML(i) {
     var e = EP[i], c = CATS[e.cat];
     var chapters = chapList(e);
-    var url = shareURL();
+    var url = shareURL(e);
     var text = 'Listening to "' + e.title + '" on the Intergenerational Podcast';
     var enc = encodeURIComponent;
     var social = [

@@ -27,6 +27,7 @@ window.SITE = {
   EP: [
     { n: 3, cat: 'environment', gens: ['genz', 'boomers'], title: 'Rooted in Indigenous Wisdom: Restoring Our Land, Reconnecting with Nature, and Cultivating Equality', date: '29 November 2026', dur: 1380,
       audio: 'audio/episode-03.mp3',
+      share: 'https://ms.podbean.com/media/share/pb-6q7y4-1bc036f?utm_campaign=admin_episode&utm_source=episode_share_pb&utm_medium=dlink',
       platforms: {
         podbean: 'https://interpodcasts.podbean.com/e/rooted-in-indigenous-wisdom-restoring-our-land-reconnecting-with-nature-and-cultivating-equality/',
       },
@@ -46,6 +47,7 @@ window.SITE = {
     },
     { n: 3, cat: 'land', gens: ['genz', 'boomers'], title: 'Rooted in Indigenous Wisdom: Restoring Our Land, Reconnecting with Nature, and Cultivating Equality', date: '29 November 2026', dur: 1380,
       audio: 'audio/episode-03.mp3',
+      share: 'https://ms.podbean.com/media/share/pb-6q7y4-1bc036f?utm_campaign=admin_episode&utm_source=episode_share_pb&utm_medium=dlink',
       platforms: {
         podbean: 'https://interpodcasts.podbean.com/e/rooted-in-indigenous-wisdom-restoring-our-land-reconnecting-with-nature-and-cultivating-equality/',
       },
@@ -64,7 +66,8 @@ window.SITE = {
       tags: ['#indigenous', '#land_restoration', '#agriculture', '#nature'],
     },
     { n: 2, cat: 'agriculture', gens: ['genz', 'millennials'], title: 'Beyond Fear: Cultivating Courage for a Sustainable Agricultural Future', date: '26 November 2026', dur: 2220,
-      audio: 'audio/episode-02.mp3',
+      audio: 'https://s431.podbean.com/pb/655b2501ead4ead35982b6f9acf25f71/6b08baab/data1/fs176/23480783/uploads/_2_Episode_updated_bmdiw.mp3?pbss=cdd2535c-bef1-5055-ab0f-392c3c54a964',
+      share: 'https://ms.podbean.com/media/share/pb-3vgqk-1bc10e0?utm_campaign=admin_episode&utm_source=episode_share_pb&utm_medium=dlink',
       platforms: {
         podbean: 'https://interpodcasts.podbean.com/e/beyond-fear-cultivating-courage-for-a-sustainable-agricultural-future/',
       },
@@ -90,6 +93,7 @@ window.SITE = {
     },
     { n: 1, cat: 'environment', gens: ['genz', 'boomers'], title: 'Analog Forestry for Regenerative Agriculture', date: '29 May 2026', dur: 2100,
       audio: 'audio/episode-01.mp3',
+      share: 'https://ms.podbean.com/media/share/pb-t9jab-1bc03d0?utm_campaign=admin_episode&utm_source=episode_share_pb&utm_medium=dlink',
       platforms: {
         podbean: 'https://interpodcasts.podbean.com/e/analog-forestry-for-regenerative-agriculture/',
       },
