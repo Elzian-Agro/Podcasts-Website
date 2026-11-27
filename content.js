@@ -163,7 +163,7 @@ window.SITE = {
       platforms: {
         podbean: 'https://interpodcasts.podbean.com/e/analog-forestry-for-regenerative-agriculture/',
       },
-      img: 'img/episode-01.png',
+      img: 'img/Ranil x Lilan.png',
       guests: [{ n: 'Lilan Dayananda', g: 'genz', r: 'CEO of Elzian Agro', t: 'Host' }, { n: 'Dr. Ranil Senanayake', g: 'boomers', r: 'The Farther of Analog Forestry', t: 'Guest Speaker' }],
       description: 'Tune into this captivating episode where we delve into the crucial role of Analog Forestry in paving the way for regenerative and precision agriculture. Get ready for a treasure trove of insights into the future of precision agriculture and a seamless transition into the world of organic farming. Tune in now for a riveting exploration of sustainable farming practices that are shaping the future of agriculture.',
       summary: 'Dr. Ranil promotes analog forestry for sustainable agriculture, forest conservation, and rural economic development through digital innovation.',
