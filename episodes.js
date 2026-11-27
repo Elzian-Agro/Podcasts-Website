@@ -108,6 +108,26 @@ window.SITE = {
       tags: ['School gardens', 'Composting', 'Learning outdoors'],
       res: ['Guide: starting a school garden', 'Plant list for beginners', 'Poster: what lives in a compost heap'] },
 
+    { n: 3, cat: 'environment', gens: ['genz', 'boomers'], title: 'Rooted in Indigenous Wisdom: Restoring Our Land, Reconnecting with Nature, and Cultivating Equality', date: '29 November 2026', dur: 1380,
+      audio: 'audio/episode-03.mp3',
+      platforms: {
+        podbean: 'https://interpodcasts.podbean.com/e/rooted-in-indigenous-wisdom-restoring-our-land-reconnecting-with-nature-and-cultivating-equality/',
+      },
+      img: 'img/Lewis x Lilan.png',
+      guests: [{ n: 'Lilan Dayananda', g: 'genz', r: 'CEO of Elzian Agro', t: 'Host' }, { n: 'Lewis Cardinalk', g: 'boomers', r: 'Prominent Woodland Cree Communicator', t: 'Guest Speaker' }],
+      description: 'What can Indigenous wisdom teach us about restoring our relationship with the land and building a more sustainable and equitable future?\n\n In this episode of Intergenerational Podcasts, host <a href="https://lilan.elzian.com/" target="_blank" rel="noopener">Lilan Dayananda</a> welcomes Lewis Cardinal, a prominent Woodland Cree communicator and Indigenous leader, for an inspiring conversation about Indigenous approaches to agriculture, land restoration, biodiversity, and social equality.\n\nDiscover the wisdom behind the Three Sisters method, a traditional companion-planting practice that demonstrates the power of agricultural diversity and ecological cooperation. The discussion explores how Indigenous knowledge and practices can help address land degradation and biodiversity loss resulting from industrialisation and human activities.\n\nThe conversation also highlights women\'s contributions to agriculture and land stewardship, digital inclusion, Indigenous astronomy, and the importance of reconnecting modern society with nature-based sustainable practices.\n\nJoin us to discover how traditional knowledge, cultural wisdom, and intergenerational collaboration can help restore ecological balance and create a more inclusive and sustainable future.',
+      summary: 'Explore how Indigenous wisdom can inspire sustainable agriculture, restore degraded land, protect biodiversity, and strengthen our connection with nature. Discover how traditional knowledge, cultural practices, and intergenerational collaboration can create a more inclusive and resilient future.',
+      about: "In this episode, Lilan Dayananda sits down with Lewis Cardinal, a prominent Woodland Cree communicator and Indigenous leader, to explore the importance of Indigenous knowledge in shaping a sustainable future. From the Three Sisters agricultural method to land restoration, biodiversity conservation, and women’s contributions to agriculture, the conversation highlights how traditional wisdom can guide modern sustainability efforts. Discover the connections between Indigenous astronomy, digital inclusion, cultural preservation, and nature-based solutions, while exploring how different generations can work together to build a more equitable relationship with the land and our environment.",
+      take: ['Learning from the Three Sisters method', ' Indigenous wisdom for land restoration', 'Women\'s role in agriculture and equality', 'Indigenous astronomy and connections with nature', 'Digital inclusion and preserving Indigenous knowledge', 'Transitioning towards nature-based sustainability'],
+      chapters: [
+        { t: '00:48', title: 'Understanding the Three Sisters Method of Agriculture.' },
+        { t: '08:45', title: 'Indigenous Rights, Land Reconciliation and Modern Agriculture.' },
+        { t: '14:00', title: 'Why Are Women Central to Indigenous Agriculture?' },
+        { t: '15:30', title: 'Traditional Knowledge and the Timing of Planting Seasons.' },
+        { t: '17:50', title: 'Technology, Satellites and Our Changing Relationship with Nature.' },
+      ],
+      tags: ['#indigenous', '#land_restoration', '#agriculture', '#nature'],
+    },
     { n: 3, cat: 'land', gens: ['genz', 'boomers'], title: 'Rooted in Indigenous Wisdom: Restoring Our Land, Reconnecting with Nature, and Cultivating Equality', date: '29 November 2026', dur: 1380,
       audio: 'audio/episode-03.mp3',
       platforms: {
