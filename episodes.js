@@ -26,8 +26,8 @@ window.SITE = {
   /* Episodes, newest first */
   EP: [
     { n: 3, cat: 'environment', gens: ['genz', 'boomers'], title: 'Rooted in Indigenous Wisdom: Restoring Our Land, Reconnecting with Nature, and Cultivating Equality', date: '29 November 2026', dur: 1380,
-      audio: 'audio/episode-03.mp3',
-      share: 'https://ms.podbean.com/media/share/pb-6q7y4-1bc036f?utm_campaign=admin_episode&utm_source=episode_share_pb&utm_medium=dlink',
+      audio: 'https://s412.podbean.com/pb/cfe8ad2126e19a0d6c0ed84da8c7736a/6b08d1a3/data1/fs176/23480783/uploads/_3_Episode_updated_8e21y.mp3?pbss=16b1bc14-2491-5266-bf63-a036ce51013a',
+      share: 'https://ms.podbean.com/media/share/pb-gcj6k-1bc11c4?utm_campaign=admin_episode&utm_source=episode_share_pb&utm_medium=dlink',
       platforms: {
         podbean: 'https://interpodcasts.podbean.com/e/rooted-in-indigenous-wisdom-restoring-our-land-reconnecting-with-nature-and-cultivating-equality/',
       },
@@ -46,8 +46,8 @@ window.SITE = {
       tags: ['#indigenous', '#land_restoration', '#agriculture', '#nature'],
     },
     { n: 3, cat: 'land', gens: ['genz', 'boomers'], title: 'Rooted in Indigenous Wisdom: Restoring Our Land, Reconnecting with Nature, and Cultivating Equality', date: '29 November 2026', dur: 1380,
-      audio: 'audio/episode-03.mp3',
-      share: 'https://ms.podbean.com/media/share/pb-6q7y4-1bc036f?utm_campaign=admin_episode&utm_source=episode_share_pb&utm_medium=dlink',
+      audio: 'https://s412.podbean.com/pb/cfe8ad2126e19a0d6c0ed84da8c7736a/6b08d1a3/data1/fs176/23480783/uploads/_3_Episode_updated_8e21y.mp3?pbss=16b1bc14-2491-5266-bf63-a036ce51013a',
+      share: 'https://ms.podbean.com/media/share/pb-gcj6k-1bc11c4?utm_campaign=admin_episode&utm_source=episode_share_pb&utm_medium=dlink',
       platforms: {
         podbean: 'https://interpodcasts.podbean.com/e/rooted-in-indigenous-wisdom-restoring-our-land-reconnecting-with-nature-and-cultivating-equality/',
       },
